@@ -18,8 +18,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
+        'username',
         'password',
     ];
 
@@ -42,4 +41,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function approvedKendaraan()
+    {
+        return $this->hasMany(PermintaanKendaraan::class, 'approved_by');
+    }
+
+    public function approvedMakanan()
+    {
+        return $this->hasMany(PermintaanMakanan::class, 'approved_by');
+    }
 }
