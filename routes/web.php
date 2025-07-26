@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,17 +32,15 @@ Route::get('/', function () {
 Route::get('/auth/login', function () {
     return view('auth.login');
 })->name('login');
-
+Route::post('/auth/login', [AuthController::class, 'login'])->name('login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/test', function () {
     return 'Hello, Laravel!';
 });
 Route::prefix('admin')->name('admin.')->group(function () {
-    // Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    Route::get('/dashboard', function () {
-        return view('dashboard.index');
-    })->name('dashboard');
 
     // Tabel permintaan kendaraan
     Route::get('/makanan', function () {
@@ -50,16 +50,4 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/kendaraan', function () {
         return view('manajemen-data.kendaraan.index');
     })->name('kendaraan.index');
-
-    //  Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
-    // // Tabel permintaan kendaraan
-    // Route::get('/kendaraan', [KendaraanController::class, 'index'])->name('kendaraan.index');
-    // Route::get('/kendaraan/{id}', [KendaraanController::class, 'show'])->name('kendaraan.show');
-    // Route::delete('/kendaraan/{id}', [KendaraanController::class, 'destroy'])->name('kendaraan.destroy');
-
-    // // Tabel permintaan makanan
-    // Route::get('/makanan', [MakananController::class, 'index'])->name('makanan.index');
-    // Route::get('/makanan/{id}', [MakananController::class, 'show'])->name('makanan.show');
-    // Route::delete('/makanan/{id}', [MakananController::class, 'destroy'])->name('makanan.destroy');
 });

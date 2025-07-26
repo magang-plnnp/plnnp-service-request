@@ -59,6 +59,26 @@
           <span class="menu-text">Pengadaan Makanan</span>
         </a>
       
+        <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Yakin ingin keluar?');">
+    @csrf
+    <button type="submit" class="menu-item">
+        <svg
+            class="menu-icon"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+        >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 11-4 0v-1m0-8V7a2 2 0 114 0v1"
+            />
+        </svg>
+        <span class="menu-text">Logout</span>
+    </button>
+</form>
+
         {{-- <a href="#" class="menu-item">
           <svg
             class="menu-icon"

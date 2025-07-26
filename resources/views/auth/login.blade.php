@@ -22,7 +22,8 @@
         <!-- Success message akan ditampilkan oleh Laravel -->
       </div>
 
-      <form id="loginForm" method="POST" action="">
+      <form id="loginForm" method="POST" action="{{ route('login') }}">
+          @csrf
         <div class="form-group">
           <label for="username">Username <span class="required">*</span></label>
           <div class="input-wrapper">
@@ -30,9 +31,11 @@
               type="text"
               id="username"
               name="username"
+              value="{{ old('username') }}"
               placeholder="Masukkan username Anda"
               required
               autocomplete="off"
+              autofocus
             />
             <svg
               class="input-icon"
