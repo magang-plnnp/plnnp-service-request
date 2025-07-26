@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PermintaanKendaraanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,9 +49,7 @@ Route::middleware('auth')->group(function () {
             return view('manajemen-data.makanan.index');
         })->name('makanan.index');
 
-        Route::get('/kendaraan', function () {
-            return view('manajemen-data.kendaraan.index');
-        })->name('kendaraan.index');
+        Route::get('/kendaraan', [PermintaanKendaraanController::class, 'index'])->name('kendaraan.index');
     });
 });
 

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard - Dashboard Admin - Sistem Pengadaan & Peminjaman</title>
     <link rel="stylesheet" href="{{ asset('dashboard/style.css') }}" />
+    @stack('styles')
   </head>
 <body>
     <!-- Sidebar -->
@@ -19,6 +20,7 @@
       
        @include('partials.footer')
       <script src="{{ asset('dashboard/script.js') }}"></script>
+      @stack('scripts')
       
 
 </body>
