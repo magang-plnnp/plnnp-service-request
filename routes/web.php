@@ -29,25 +29,42 @@ Route::get('/', function () {
     return view('landing.index');
 })->name('landing');
 
-Route::get('/auth/login', function () {
-    return view('auth.login');
-})->name('login');
-Route::post('/auth/login', [AuthController::class, 'login'])->name('login');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::middleware('guest')->group(function () {
+    Route::get('/auth/login', function () {
+        return view('auth.login');
+    })->name('login');
 
-Route::get('/test', function () {
-    return 'Hello, Laravel!';
+    Route::post('/auth/login', [AuthController::class, 'login']);
 });
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 
-    // Tabel permintaan kendaraan
-    Route::get('/makanan', function () {
-        return view('manajemen-data.makanan.index');
-    })->name('makanan.index');
+Route::middleware('auth')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::get('/kendaraan', function () {
-        return view('manajemen-data.kendaraan.index');
-    })->name('kendaraan.index');
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+        Route::get('/makanan', function () {
+            return view('manajemen-data.makanan.index');
+        })->name('makanan.index');
+
+        Route::get('/kendaraan', function () {
+            return view('manajemen-data.kendaraan.index');
+        })->name('kendaraan.index');
+    });
 });
+
+
+// Route::prefix('admin')->name('admin.')->group(function () {
+//     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+
+//     // Tabel permintaan kendaraan
+//     Route::get('/makanan', function () {
+//         return view('manajemen-data.makanan.index');
+//     })->name('makanan.index');
+
+//     Route::get('/kendaraan', function () {
+//         return view('manajemen-data.kendaraan.index');
+//     })->name('kendaraan.index');
+// });
