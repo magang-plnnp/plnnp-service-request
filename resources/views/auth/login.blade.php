@@ -120,14 +120,17 @@
 
         <button type="submit" class="login-btn">Masuk</button>
       </form>
-
-      <!-- <div class="divider">
+{{-- 
+      <div class="divider">
         <span>atau</span>
-      </div>
+      </div> --}}
 
       <div class="register-link">
+        Masuk ke landing page? <a href="{{ route('landing') }}">Masuk</a>
+      </div> 
+      {{-- <div class="register-link">
         Belum punya akun? <a href="#">Daftar sekarang</a>
-      </div> -->
+      </div>  --}}
     </div>
 
     <script>

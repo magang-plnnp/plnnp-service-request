@@ -8,7 +8,7 @@
           <div class="stats-grid">
             <div class="stat-card">
               <div class="stat-header">
-                <div class="stat-title">Total Peminjaman</div>
+                <div class="stat-title">Total Permintaan Kendaraan</div>
                 <div class="stat-icon">
                   <svg
                     width="20"
@@ -26,29 +26,13 @@
                   </svg>
                 </div>
               </div>
-              <div class="stat-value">156</div>
-              <div class="stat-change positive">
-                <svg
-                  width="16"
-                  height="16"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M7 17l10-10M17 7v10"
-                  />
-                </svg>
-                +12% dari bulan lalu
-              </div>
+              <div class="stat-value">{{ $totalKendaraan }}</div>
+              {!! renderStatChange($totalKendaraanPercentage) !!}
             </div>
 
             <div class="stat-card">
               <div class="stat-header">
-                <div class="stat-title">Total Pengadaan</div>
+                <div class="stat-title">Total Permintaan Makanan</div>
                 <div class="stat-icon">
                   <svg
                     width="20"
@@ -66,29 +50,13 @@
                   </svg>
                 </div>
               </div>
-              <div class="stat-value">89</div>
-              <div class="stat-change positive">
-                <svg
-                  width="16"
-                  height="16"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M7 17l10-10M17 7v10"
-                  />
-                </svg>
-                +8% dari bulan lalu
-              </div>
+              <div class="stat-value">{{ $totalMakanan }}</div>
+             {!! renderStatChange($totalMakananPercentage) !!}
             </div>
 
             <div class="stat-card">
               <div class="stat-header">
-                <div class="stat-title">Pending Approval</div>
+                <div class="stat-title">Kendaraan Pending</div>
                 <div class="stat-icon">
                   <svg
                     width="20"
@@ -106,29 +74,13 @@
                   </svg>
                 </div>
               </div>
-              <div class="stat-value">24</div>
-              <div class="stat-change negative">
-                <svg
-                  width="16"
-                  height="16"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M17 17l-10-10M7 7v10"
-                  />
-                </svg>
-                -5% dari bulan lalu
-              </div>
+              <div class="stat-value">{{ $kendaraanPending }}</div>
+              {!! renderStatChange($kendaraanPendingPercentage) !!}
             </div>
 
             <div class="stat-card">
               <div class="stat-header">
-                <div class="stat-title">Total Pengguna</div>
+                <div class="stat-title">Kendaraaan Approved</div>
                 <div class="stat-icon">
                   <svg
                     width="20"
@@ -146,30 +98,107 @@
                   </svg>
                 </div>
               </div>
-              <div class="stat-value">342</div>
-              <div class="stat-change positive">
-                <svg
-                  width="16"
-                  height="16"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M7 17l10-10M17 7v10"
-                  />
-                </svg>
-                +18% dari bulan lalu
+              <div class="stat-value">{{ $kendaraanApproved }}</div>
+              {!! renderStatChange($kendaraanApprovedPercentage) !!}
+            </div>
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-title">Kendaraaan Rejected</div>
+                <div class="stat-icon">
+                  <svg
+                    width="20"
+                    height="20"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
+                    />
+                  </svg>
+                </div>
               </div>
+              <div class="stat-value">{{ $kendaraanRejected }}</div>
+              {!! renderStatChange($kendaraanRejectedPercentage) !!}
+            </div>
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-title">Makanan Pending</div>
+                <div class="stat-icon">
+                  <svg
+                    width="20"
+                    height="20"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div class="stat-value">{{ $makananPending }}</div>
+              {!! renderStatChange($makananPendingPercentage) !!}
+            </div>
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-title">Makanan Approved</div>
+                <div class="stat-icon">
+                  <svg
+                    width="20"
+                    height="20"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div class="stat-value">{{ $makananApproved }}</div>
+               {!! renderStatChange($makananApprovedPercentage) !!}
+            </div>
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-title">Makanan Rejected</div>
+                <div class="stat-icon">
+                  <svg
+                    width="20"
+                    height="20"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
+              <div class="stat-value">{{ $makananRejected }}</div>
+             
+               {!! renderStatChange($makananRejectedPercentage) !!}
             </div>
           </div>
 
           <div class="table-section">
             <div class="table-header">
-              <div class="table-title">Aktivitas Terbaru</div>
+              <div class="table-title">Aktivitas Terbaru Permintaan Kendaraan</div>
             </div>
             <div class="table-container">
               <table>
@@ -183,12 +212,13 @@
                   </tr>
                 </thead>
                 <tbody>
+                  @foreach ($aktivitasTerbaru as $item)
                   <tr>
-                    <td>26 Jul 2025</td>
-                    <td>Peminjaman Kendaraan</td>
-                    <td>Ahmssad Rizki</td>
+                    <td>{{ $item->created_at->format('Y-m-d H:i') }}</td>
+                    <td>{{ $item->jenis }}</td>
+                    <td>{{ $item->nama }}</td>
                     <td>
-                      <span class="status-badge status-pending">Pending</span>
+                      <span class="status-badge status-pending">{{ $item->status }}</span>
                     </td>
                     <td>
                       <div class="action-buttons">
@@ -196,49 +226,7 @@
                       </div>
                     </td>
                   </tr>
-                  <tr>
-                    <td>26 Jul 2025</td>
-                    <td>Pengadaan Makanan</td>
-                    <td>Siti Nurhaliza</td>
-                    <td>
-                      <span class="status-badge status-approved"
-                        >Disetujui</span
-                      >
-                    </td>
-                    <td>
-                      <div class="action-buttons">
-                        <button class="btn btn-sm btn-view">Detail</button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>25 Jul 2025</td>
-                    <td>Peminjaman Kendaraan</td>
-                    <td>Budi Santoso</td>
-                    <td>
-                      <span class="status-badge status-approved"
-                        >Disetujui</span
-                      >
-                    </td>
-                    <td>
-                      <div class="action-buttons">
-                        <button class="btn btn-sm btn-view">Detail</button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>25 Jul 2025</td>
-                    <td>Pengadaan Makanan</td>
-                    <td>Maya Sari</td>
-                    <td>
-                      <span class="status-badge status-rejected">Ditolak</span>
-                    </td>
-                    <td>
-                      <div class="action-buttons">
-                        <button class="btn btn-sm btn-view">Detail</button>
-                      </div>
-                    </td>
-                  </tr>
+                  @endforeach
                 </tbody>
               </table>
             </div>

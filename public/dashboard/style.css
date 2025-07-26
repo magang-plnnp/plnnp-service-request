@@ -344,6 +344,10 @@
         gap: 4px;
       }
 
+      .stat-change.neutral {
+       color: #999;
+      }
+
       .stat-change.positive {
         color: #10b981;
       }
