@@ -59,16 +59,15 @@
                         <option value="completed">Selesai</option>
                     </select>
                 </div>
-                <div class="filter-group">
-                    <label class="filter-label">Jenis Kendaraan</label>
-                    <select class="filter-select" id="typeFilter">
-                        <option value="">Semua Jenis</option>
-                        <option value="sedan">Sedan</option>
-                        <option value="suv">SUV</option>
-                        <option value="minibus">Minibus</option>
-                        <option value="bus">Bus</option>
-                    </select>
-                </div>
+                 <div class="filter-group">
+                  <label class="filter-label">Sub Bidang</label>
+                  <select class="filter-select" id="typeFilter">
+                      <option value="">Semua Sub Bidang</option>
+                      @foreach ($subBidang as $item)
+                          <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                      @endforeach
+                  </select>
+              </div>
                 <div class="filter-group">
                     <label class="filter-label">Periode</label>
                     <select class="filter-select" id="periodFilter">
@@ -101,16 +100,19 @@
           </thead>
           <tbody>
             @foreach($permintaanKendaraan as $item)
-            <tr>
+              <tr 
+  data-subbidang="{{ $item->sub_bidang_id }}" 
+  data-status="{{ $item->status }}" 
+  data-tanggal="{{ $item->tanggal }}">
               <td>{{ $loop->iteration }}</td>
               <td>{{ $item->nama }}</td>
               <td>{{ $item->nid }}</td>
-              <td>Sub Bidang</td>
+              <td>{{ $item->subBidang->nama ?? '-' }}</td>
               <td>{{ $item->no_hp }}</td>
               <td>{{ $item->lokasi_penjemputan }}</td>
               <td>{{ $item->tanggal_waktu }}</td>
               <td>{{ $item->tujuan }}</td>
-              <td>{{ $item->file }}</td>
+              <td>{{ $item->file ?? '-'}} </td>
               <td>
                 <span class="status-badge status-approved">{{ $item->status }}</span>
               </td>
@@ -220,22 +222,73 @@
   $(document).ready(function () {
     const table = $('#peminjamanTable');
     const allRows = table.find('tbody tr');
-    const totalRows = allRows.length;
+    let filteredRows = allRows;
     let currentPage = 1;
     let rowsPerPage = parseInt($('#itemsPerPage').val());
 
-    function renderTablePage() {
-      allRows.hide();
-      const start = (currentPage - 1) * rowsPerPage;
-      const end = start + rowsPerPage;
-      allRows.slice(start, end).show();
+    function applyFilters() {
+      const status = $('#statusFilter').val();
+      const subBidang = $('#typeFilter').val();
+      const period = $('#periodFilter').val();
 
-      $('#currentRange').text(`${start + 1}-${Math.min(end, totalRows)}`);
-      $('#totalCount').text(totalRows);
-      renderPaginationButtons();
+      filteredRows = allRows.filter(function () {
+        const row = $(this);
+        const rowStatus = row.find('td:nth-child(10)').text().trim().toLowerCase();
+        const rowSubBidang = row.find('td:nth-child(4)').text().trim();
+        const rowDate = new Date(row.find('td:nth-child(7)').text());
+
+        let match = true;
+
+        if (status && rowStatus !== status.toLowerCase()) {
+          match = false;
+        }
+
+        if (subBidang && rowSubBidang !== $('#typeFilter option:selected').text().trim()) {
+          match = false;
+        }
+
+        if (period) {
+          const now = new Date();
+          const rowTime = new Date(rowDate.getFullYear(), rowDate.getMonth(), rowDate.getDate());
+          const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+          if (period === 'today') {
+            if (rowTime.getTime() !== today.getTime()) match = false;
+          } else if (period === 'week') {
+            const startOfWeek = new Date(today);
+            startOfWeek.setDate(today.getDate() - today.getDay());
+            const endOfWeek = new Date(startOfWeek);
+            endOfWeek.setDate(startOfWeek.getDate() + 6);
+            if (rowTime < startOfWeek || rowTime > endOfWeek) match = false;
+          } else if (period === 'month') {
+            if (
+              rowDate.getMonth() !== now.getMonth() ||
+              rowDate.getFullYear() !== now.getFullYear()
+            ) match = false;
+          } else if (period === 'year') {
+            if (rowDate.getFullYear() !== now.getFullYear()) match = false;
+          }
+        }
+
+        return match;
+      });
     }
 
-    function renderPaginationButtons() {
+    function renderTablePage() {
+      const totalRows = filteredRows.length;
+      const start = (currentPage - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+
+      allRows.hide();
+      filteredRows.hide();
+      filteredRows.slice(start, end).show();
+
+      $('#currentRange').text(`${Math.min(start + 1, totalRows)}-${Math.min(end, totalRows)}`);
+      $('#totalCount').text(totalRows);
+      renderPaginationButtons(totalRows);
+    }
+
+    function renderPaginationButtons(totalRows) {
       const totalPages = Math.ceil(totalRows / rowsPerPage);
       const container = $('#customPaginationButtons');
       container.empty();
@@ -250,18 +303,8 @@
         container.append(btn);
       }
 
-    if (currentPage === 1) {
-  $('#prevPage').attr('disabled', true).addClass('disabled');
-} else {
-  $('#prevPage').removeAttr('disabled').removeClass('disabled');
-}
-
-if (currentPage === totalPages) {
-  $('#nextPage').attr('disabled', true).addClass('disabled');
-} else {
-  $('#nextPage').removeAttr('disabled').removeClass('disabled');
-}
-
+      $('#prevPage').prop('disabled', currentPage === 1).toggleClass('disabled', currentPage === 1);
+      $('#nextPage').prop('disabled', currentPage === totalPages).toggleClass('disabled', currentPage === totalPages);
     }
 
     $('#prevPage').click(() => {
@@ -272,7 +315,7 @@ if (currentPage === totalPages) {
     });
 
     $('#nextPage').click(() => {
-      const totalPages = Math.ceil(totalRows / rowsPerPage);
+      const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
       if (currentPage < totalPages) {
         currentPage++;
         renderTablePage();
@@ -285,10 +328,34 @@ if (currentPage === totalPages) {
       renderTablePage();
     });
 
-    // Awal render
+    $('#searchInput').on('keyup', function () {
+      const keyword = $(this).val().toLowerCase();
+      applyFilters();
+      filteredRows = filteredRows.filter(function () {
+        return $(this).text().toLowerCase().indexOf(keyword) > -1;
+      });
+      currentPage = 1;
+      renderTablePage();
+    });
+
+    $('#statusFilter, #typeFilter, #periodFilter').on('change', function () {
+      applyFilters();
+      const keyword = $('#searchInput').val().toLowerCase();
+      if (keyword) {
+        filteredRows = filteredRows.filter(function () {
+          return $(this).text().toLowerCase().indexOf(keyword) > -1;
+        });
+      }
+      currentPage = 1;
+      renderTablePage();
+    });
+
+    // Initial render
+    applyFilters();
     renderTablePage();
   });
 </script>
+
 
 
 <script>

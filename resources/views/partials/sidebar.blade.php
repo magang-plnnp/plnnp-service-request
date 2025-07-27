@@ -1,6 +1,6 @@
 <div class="sidebar" id="sidebar">
       <div class="sidebar-header">
-        <div class="logo">SistemPro</div>
+        <div class="logo">PLN-NP</div>
       </div>
       <nav class="sidebar-menu">
         
