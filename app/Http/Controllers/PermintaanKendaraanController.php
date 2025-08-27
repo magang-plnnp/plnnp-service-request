@@ -48,4 +48,30 @@ class PermintaanKendaraanController extends Controller
 
         return response()->json(['message' => 'Sukses']);
     }
+
+    public function acc($id)
+    {
+        $peminjaman = PermintaanKendaraan::findOrFail($id);
+        $peminjaman->status = 'approved';
+        $peminjaman->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    public function tolak($id)
+    {
+        $peminjaman = PermintaanKendaraan::findOrFail($id);
+        $peminjaman->status = 'rejected';
+        $peminjaman->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    public function destroy($id)
+    {
+        $peminjaman = PermintaanKendaraan::findOrFail($id);
+        $peminjaman->delete();
+
+        return response()->json(['success' => true]);
+    }
 }

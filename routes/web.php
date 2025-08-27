@@ -40,6 +40,10 @@ Route::middleware('auth')->group(function () {
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::get('/kendaraan', [PermintaanKendaraanController::class, 'index'])->name('kendaraan.index');
+        Route::post('/kendaraan/{id}/acc', [PermintaanKendaraanController::class, 'acc'])->name('kendaraan.acc');
+        Route::post('/kendaraan/{id}/tolak', [PermintaanKendaraanController::class, 'tolak'])->name('kendaraan.tolak');
+        Route::delete('/kendaraan/{id}', [PermintaanKendaraanController::class, 'destroy'])->name('kendaraan.destroy');
+
         Route::get('/makanan', [PermintaanMakananController::class, 'index'])->name('makanan.index');
         Route::get('/sub-bidang', [PermintaanMakananController::class, 'index'])->name('sub-bidang.index');
     });
