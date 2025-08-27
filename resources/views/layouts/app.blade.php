@@ -25,15 +25,7 @@
         <script src="{{ asset('dashboard/script.js') }}"></script>
         @stack('scripts')
 
-        <script>
-            function openModal(id) {
-                document.getElementById(id).style.display = 'flex';
-            }
 
-            function closeModal(id) {
-                document.getElementById(id).style.display = 'none';
-            }
-        </script>
 
 </body>
 

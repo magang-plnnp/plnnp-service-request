@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\PermintaanKendaraan;
 use App\Models\SubBidang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PermintaanKendaraanController extends Controller
 {
@@ -70,6 +71,12 @@ class PermintaanKendaraanController extends Controller
     public function destroy($id)
     {
         $peminjaman = PermintaanKendaraan::findOrFail($id);
+
+        // Hapus file jika ada
+        if ($peminjaman->file) {
+            Storage::disk('public')->delete($peminjaman->file);
+        }
+
         $peminjaman->delete();
 
         return response()->json(['success' => true]);
