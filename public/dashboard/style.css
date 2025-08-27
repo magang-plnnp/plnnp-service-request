@@ -495,19 +495,23 @@
       }
 
       .status-pending {
-        background: #fef3c7;
-        color: #3b54e0;
+       background: rgba(251, 191, 36, 0.15);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.3);
       }
 
-      .status-approved {
-        background: #d1fae5;
-        color: #065f46;
-      }
+       .status-approved {
+                background: rgba(34, 197, 94, 0.1);
+    color: #16a34a;
+    border: 1px solid rgba(34, 197, 94, 0.2);
+        }
 
-      .status-rejected {
-        background: #fee2e2;
-        color: #991b1b;
-      }
+        .status-rejected {
+            background: rgba(239, 68, 68, 0.15);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
 
       .action-buttons {
         display: flex;

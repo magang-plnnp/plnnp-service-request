@@ -93,7 +93,8 @@
                                     <td>{{ $item->subBidang->nama ?? '-' }}</td>
                                     <td>{{ $item->no_hp }}</td>
                                     <td>{{ $item->lokasi_penjemputan }}</td>
-                                    <td>{{ $item->tanggal_waktu }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($item->tanggal_waktu)->locale('id')->isoFormat('D MMMM Y, HH:mm') }}
+                                    </td>
                                     <td>{{ $item->tujuan }}</td>
                                     <td>
                                         @if ($item->file)

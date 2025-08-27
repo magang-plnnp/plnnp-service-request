@@ -106,7 +106,8 @@
                                     <td>{{ $item->subBidang->nama ?? '-' }}</td>
                                     <td>{{ $item->no_hp }}</td>
                                     <td>{{ $item->judul_agenda }}</td>
-                                    <td>{{ $item->tanggal }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($item->tanggal)->locale('id')->isoFormat('D MMMM Y, HH:mm') }}
+                                    </td>
                                     <td>{{ $item->durasi }}</td>
                                     <td>{{ $item->jumlah }}</td>
                                     <td>{{ $item->lokasi }}</td>
