@@ -52,4 +52,30 @@ class PermintaanMakananController extends Controller
 
         return response()->json(['message' => 'Sukses'], 200);
     }
+
+    public function acc($id)
+    {
+        $peminjaman = PermintaanMakanan::findOrFail($id);
+        $peminjaman->status = 'approved';
+        $peminjaman->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    public function tolak($id)
+    {
+        $peminjaman = PermintaanMakanan::findOrFail($id);
+        $peminjaman->status = 'rejected';
+        $peminjaman->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    public function destroy($id)
+    {
+        $peminjaman = PermintaanMakanan::findOrFail($id);
+        $peminjaman->delete();
+
+        return response()->json(['success' => true]);
+    }
 }

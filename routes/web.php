@@ -45,6 +45,10 @@ Route::middleware('auth')->group(function () {
         Route::delete('/kendaraan/{id}', [PermintaanKendaraanController::class, 'destroy'])->name('kendaraan.destroy');
 
         Route::get('/makanan', [PermintaanMakananController::class, 'index'])->name('makanan.index');
+        Route::post('/makanan/{id}/acc', [PermintaanMakananController::class, 'acc'])->name('makanan.acc');
+        Route::post('/makanan/{id}/tolak', [PermintaanMakananController::class, 'tolak'])->name('makanan.tolak');
+        Route::delete('/makanan/{id}', [PermintaanMakananController::class, 'destroy'])->name('makanan.destroy');
+
         Route::get('/sub-bidang', [PermintaanMakananController::class, 'index'])->name('sub-bidang.index');
     });
 });
