@@ -195,6 +195,27 @@
             background: #b45309;
         }
 
+        /* Acc / Approve */
+        .btn-acc {
+            background: #16a34a; /* hijau */
+            color: white;
+        }
+
+        .btn-acc:hover {
+            background: #15803d; /* hijau lebih gelap saat hover */
+        }
+
+        /* Tolak / Reject */
+        .btn-reject {
+            background: #f97316; /* oranye */
+            color: white;
+        }
+
+        .btn-reject:hover {
+            background: #ea580c; /* oranye lebih gelap saat hover */
+        }
+
+
         .btn-delete {
             background: #dc2626;
             color: white;
@@ -286,6 +307,7 @@
 
         .datatable th:hover {
             background: #253344;
+            color: #e2e8f0;
         }
 
         .datatable th.sortable {

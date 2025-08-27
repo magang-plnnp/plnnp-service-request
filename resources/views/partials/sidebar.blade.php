@@ -1,83 +1,49 @@
 <div class="sidebar" id="sidebar">
-      <div class="sidebar-header">
+    <div class="sidebar-header">
         <div class="logo">PLN-NP</div>
-      </div>
-      <nav class="sidebar-menu">
-        
+    </div>
+    <nav class="sidebar-menu">
+
         <a href="{{ route('admin.dashboard') }}" class="menu-item {{ Route::is('admin.dashboard') ? 'active' : '' }}">
-          <svg
-            class="menu-icon"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"
-            />
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z"
-            />
-          </svg>
-          <span class="menu-text">Dashboard</span>
+            <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 5a2 2 0 012-2h4a2 2 0 012 2v6H8V5z" />
+            </svg>
+            <span class="menu-text">Dashboard</span>
         </a>
-        <a href="{{ route('admin.kendaraan.index') }}" class="menu-item {{ Route::is('admin.kendaraan.*') ? 'active' : '' }}">
-          <svg
-            class="menu-icon"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-          <span class="menu-text">Peminjaman Kendaraan</span>
+        <a href="{{ route('admin.kendaraan.index') }}"
+            class="menu-item {{ Route::is('admin.kendaraan.*') ? 'active' : '' }}">
+            <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <span class="menu-text">Peminjaman Kendaraan</span>
         </a>
-        <a href="{{ route('admin.makanan.index') }}" class="menu-item {{ Route::is('admin.makanan.*') ? 'active' : '' }}">
-          <svg
-            class="menu-icon"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-            />
-          </svg>
-          <span class="menu-text">Pengadaan Makanan</span>
+        <a href="{{ route('admin.makanan.index') }}"
+            class="menu-item {{ Route::is('admin.makanan.*') ? 'active' : '' }}">
+            <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            <span class="menu-text">Pengadaan Makanan</span>
         </a>
-      
-        <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Yakin ingin keluar?');">
-    @csrf
-    <button type="submit" class="menu-item">
-        <svg
-            class="menu-icon"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-        >
-            <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 11-4 0v-1m0-8V7a2 2 0 114 0v1"
-            />
-        </svg>
-        <span class="menu-text">Logout</span>
-    </button>
-</form>
+
+        <a href="javascript:void(0);" class="menu-item logout-button" onclick="openModal('logoutModal')">
+            <svg class="menu-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H7a2 2 0 01-2-2V7a2 2 0 012-2h4a2 2 0 012 2v1" />
+            </svg>
+            <span class="menu-text">Logout</span>
+        </a>
+
+
+        {{-- <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form> --}}
+
+
 
         {{-- <a href="#" class="menu-item">
           <svg
@@ -111,6 +77,31 @@
           </svg>
           <span class="menu-text">Laporan</span>
         </a> --}}
-       
-      </nav>
+
+    </nav>
+    <!-- Modal Logout -->
+    <div class="modal-overlay" id="logoutModal">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-title">Konfirmasi Logout</div>
+                <button class="modal-close" onclick="closeModal('logoutModal')">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Apakah Anda yakin ingin logout?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-cancel" onclick="closeModal('logoutModal')">Batal</button>
+                <form action="/logout" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
+            </div>
+        </div>
     </div>
+
+</div>

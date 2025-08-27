@@ -80,7 +80,7 @@
                     <table id="peminjamanTable" class="datatable">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>#</th>
                                 <th>Pemohon</th>
                                 <th>NID</th>
                                 <th>Sub Bidang</th>
@@ -124,13 +124,13 @@
                                     </td>
                                     <td>
                                         <div class="action-buttons">
-                                            <button class="btn btn-sm btn-delete"
+                                            <button class="btn btn-sm btn-acc"
                                                 onclick="openModal('peminjamanAccModal', {{ $item->id }})"
                                                 {{ $item->status !== 'pending' ? 'disabled style=opacity:0.5;cursor:not-allowed;' : '' }}>
                                                 Acc
                                             </button>
 
-                                            <button class="btn btn-sm btn-delete"
+                                            <button class="btn btn-sm btn-reject"
                                                 onclick="openModal('peminjamanTolakModal', {{ $item->id }})"
                                                 {{ $item->status !== 'pending' ? 'disabled style=opacity:0.5;cursor:not-allowed;' : '' }}>
                                                 Tolak
@@ -264,7 +264,16 @@
                         row.classList.add("status-approved");
                     }
 
-                    // alert("Peminjaman berhasil di-Acc!");
+                    // disable tombol Acc & Tolak setelah ACC
+                    let btnAcc = document.querySelector(`tr[data-id="${id}"] .btn-acc`);
+                    let btnReject = document.querySelector(`tr[data-id="${id}"] .btn-reject`);
+                    if (btnAcc) btnAcc.disabled = true;
+                    if (btnReject) btnReject.disabled = true;
+                    if (btnAcc) btnAcc.style.opacity = 0.5;
+                    if (btnReject) btnReject.style.opacity = 0.5;
+                    if (btnAcc) btnAcc.style.cursor = "not-allowed";
+                    if (btnReject) btnReject.style.cursor = "not-allowed";
+
                     showToast("Data berhasil di-ACC!", "success");
                     closeModal('peminjamanAccModal');
                 });
@@ -289,7 +298,16 @@
                         row.classList.add("status-rejected");
                     }
 
-                    // alert("Peminjaman berhasil ditolak!");
+                    // disable tombol Acc & Tolak setelah Tolak
+                    let btnAcc = document.querySelector(`tr[data-id="${id}"] .btn-acc`);
+                    let btnReject = document.querySelector(`tr[data-id="${id}"] .btn-reject`);
+                    if (btnAcc) btnAcc.disabled = true;
+                    if (btnReject) btnReject.disabled = true;
+                    if (btnAcc) btnAcc.style.opacity = 0.5;
+                    if (btnReject) btnReject.style.opacity = 0.5;
+                    if (btnAcc) btnAcc.style.cursor = "not-allowed";
+                    if (btnReject) btnReject.style.cursor = "not-allowed";
+
                     showToast("Data berhasil ditolak!", "error");
                     closeModal('peminjamanTolakModal');
                 });
@@ -316,6 +334,7 @@
                     closeModal('peminjamanHapusModal');
                 });
         }
+
 
         function openModal(modalId, id = null) {
             const modal = document.getElementById(modalId);
