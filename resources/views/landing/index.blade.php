@@ -151,7 +151,7 @@
                                     <label for="file">Upload File Pendukung</label>
                                     <input type="file" id="file" name="file"
                                         accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
-                                    <small class="form-text">Format yang diperbolehkan: PDF, DOC, JPG, PNG. Maksimal
+                                    <small class="form-text">Format yang diperbolehkan: PDF. Maksimal
                                         5MB.</small>
                                 </div>
                             </div>
@@ -229,7 +229,7 @@
                                     <label for="file">Upload File Pendukung</label>
                                     <input type="file" id="file" name="file"
                                         accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
-                                    <small class="form-text">Format yang diperbolehkan: PDF, DOC, JPG, PNG. Maksimal
+                                    <small class="form-text">Format yang diperbolehkan: PDF. Maksimal
                                         5MB.</small>
                                 </div>
 
