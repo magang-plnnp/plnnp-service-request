@@ -16,9 +16,9 @@
             <a href="#" class="logo">PLN-NP</a>
             <ul class="nav-links">
                 <li><a href="#home">Beranda</a></li>
+                <li><a href="#forms">Formulir</a></li>
                 <li><a href="#services">Layanan</a></li>
                 <li><a href="#process">Proses</a></li>
-                <li><a href="#forms">Formulir</a></li>
                 <li><a href="{{ route('login') }}" class="cta-nav">Masuk</a></li>
             </ul>
         </div>
@@ -110,6 +110,10 @@
                                 <div class="form-group">
                                     <label for="no_hp">Nomor Telepon <span class="required">*</span></label>
                                     <input type="number" id="no_hp" name="no_hp" required />
+                                    <small class="form-text text-muted">
+                                        Format yang diperbolehkan: harus seperti <strong>081287651209</strong> (dimulai
+                                        dengan 0). Tanpa spasi/tanda baca.
+                                    </small>
                                 </div>
                                 <div class="form-group">
                                     <label for="nid">NID <span class="required">*</span></label>
@@ -132,7 +136,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="text">Durasi <span class="required">*</span></label>
-                                    <input type="text" id="text" name="durasi" required />
+                                    <input type="number" id="text" name="durasi" required />
                                 </div>
                                 <div class="form-group">
                                     <label for="jumlah">Jumlah
@@ -208,6 +212,10 @@
                                 <div class="form-group">
                                     <label for="no_hp">Nomor Telepon <span class="required">*</span></label>
                                     <input type="number" id="no_hp" name="no_hp" required />
+                                    <small class="form-text text-muted">
+                                        Format yang diperbolehkan: harus seperti <strong>081287651209</strong> (dimulai
+                                        dengan 0). Tanpa spasi/tanda baca.
+                                    </small>
                                 </div>
                                 <div class="form-group">
                                     <label for="nid">NID <span class="required">*</span></label>
