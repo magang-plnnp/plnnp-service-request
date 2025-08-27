@@ -18,8 +18,6 @@ use App\Http\Controllers\PermintaanMakananController;
 |
 */
 
-
-
 Route::get('/', [LandingController::class, 'index'])->name('landing');
 
 Route::middleware('guest')->group(function () {

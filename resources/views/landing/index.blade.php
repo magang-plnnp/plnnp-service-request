@@ -52,6 +52,221 @@
         </div>
     </section>
 
+    <!-- Forms Section -->
+    <section id="forms" class="forms-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Formulir Pengajuan</h2>
+                <p class="section-subtitle">
+                    Pilih layanan yang Anda butuhkan dan isi formulir dengan lengkap
+                </p>
+            </div>
+
+            <div class="menu-selector">
+                <button class="menu-btn active" onclick="showForm('food')" id="foodBtn">
+
+                    Permintaan Makanan
+                </button>
+                <button class="menu-btn" onclick="showForm('vehicle')" id="vehicleBtn">
+
+                    Permintaan Kendaraan
+                </button>
+            </div>
+
+            <div class="form-container">
+                <!-- Form Pengadaan Makanan -->
+                <div class="form-section active" id="foodForm">
+                    <div class="form-title">Formulir Permintaan Makanan</div>
+                    <p class="form-subtitle">
+                        Silakan lengkapi informasi berikut untuk mengajukan permintaan
+                        pengadaan makanan
+                    </p>
+
+                    <div class="success-message" id="foodSuccess">
+                        ✓ Permintaan pengadaan makanan berhasil dikirim dan akan segera
+                        diproses
+                    </div>
+
+                    <form id="foodFormActual" onsubmit="submitFoodForm(event)" enctype="multipart/form-data">
+
+                        <div class="card">
+                            <div class="section-title-form">Informasi Pemohon</div>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="nama">Nama Lengkap <span class="required">*</span></label>
+                                    <input type="text" id="nama" name="nama" required />
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="sub_bidang_id">Sub Bidang <span class="required">*</span></label>
+                                    <select id="sub_bidang_id" name="sub_bidang_id" required>
+                                        <option value="">-- Pilih Sub Bidang --</option>
+                                        @foreach ($subBidang as $item)
+                                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="no_hp">Nomor Telepon <span class="required">*</span></label>
+                                    <input type="text" id="no_hp" name="no_hp" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="nid">NID <span class="required">*</span></label>
+                                    <input type="text" id="nid" name="nid" required />
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="section-title-form">Detail Acara</div>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="judul_agenda">Judul Agenda <span class="required">*</span></label>
+                                    <input type="text" id="judul_agenda" name="judul_agenda" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="tanggal">Tanggal Acara <span class="required">*</span></label>
+                                    <input type="date" id="tanggal" name="tanggal" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="text">Durasi <span class="required">*</span></label>
+                                    <input type="text" id="text" name="durasi" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="jumlah">Jumlah
+                                        <span class="required">*</span></label>
+                                    <input type="number" id="jumlah" name="jumlah" min="1"
+                                        placeholder="0" required />
+                                </div>
+
+
+                                <div class="form-group full-width">
+                                    <label for="lokasi">Lokasi Acara <span class="required">*</span></label>
+                                    <input type="text" id="lokasi" name="lokasi"
+                                        placeholder="Contoh: Ruang A" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="file">Upload File Pendukung</label>
+                                    <input type="file" id="file" name="file"
+                                        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
+                                    <small class="form-text">Format yang diperbolehkan: PDF, DOC, JPG, PNG. Maksimal
+                                        5MB.</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="info-box">
+                            <strong>Informasi:</strong> Permintaan akan diproses dalam 1-2
+                            hari kerja. Tim akan menghubungi Anda untuk konfirmasi detail
+                            dan penawaran harga.
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            <svg width="20" height="20" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                            </svg>
+                            Kirim Permintaan
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Form Peminjaman Kendaraan -->
+                <div class="form-section" id="vehicleForm">
+                    <div class="form-title">Formulir Permintaan Kendaraan Dinas</div>
+                    <p class="form-subtitle">
+                        Silakan lengkapi informasi berikut untuk mengajukan permintaan
+                        peminjaman kendaraan
+                    </p>
+
+                    <div class="success-message" id="vehicleSuccess" style="display: none;">
+                        ✓ Permintaan peminjaman kendaraan berhasil dikirim dan akan segera
+                        diproses
+                    </div>
+
+                    <form id="vehicleFormActual" onsubmit="submitVehicleForm(event)" enctype="multipart/form-data">
+
+                        <div class="card">
+                            <div class="section-title-form">Informasi Pemohon</div>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="nama">Nama Lengkap <span class="required">*</span></label>
+                                    <input type="text" id="nama" name="nama" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="sub_bidang_id">Sub Bidang <span class="required">*</span></label>
+                                    <select id="sub_bidang_id" name="sub_bidang_id" required>
+                                        <option value="">-- Pilih Sub Bidang --</option>
+                                        @foreach ($subBidang as $item)
+                                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="no_hp">Nomor Telepon <span class="required">*</span></label>
+                                    <input type="text" id="no_hp" name="no_hp" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="nid">NID <span class="required">*</span></label>
+                                    <input type="text" id="nid" name="nid" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="section-title-form">
+                                Detail Kendaraan & Perjalanan
+                            </div>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="tanggal_waktu">Tanggal <span class="required">*</span></label>
+                                    <input type="datetime-local" id="tanggal_waktu" name="tanggal_waktu" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="file">Upload File Pendukung</label>
+                                    <input type="file" id="file" name="file"
+                                        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
+                                    <small class="form-text">Format yang diperbolehkan: PDF, DOC, JPG, PNG. Maksimal
+                                        5MB.</small>
+                                </div>
+
+
+                                <div class="form-group full-width">
+                                    <label for="lokasi_penjemputan">Lokasi Penjemputan <span
+                                            class="required">*</span></label>
+                                    <input type="text" id="lokasi_penjemputan" name="lokasi_penjemputan"
+                                        placeholder="Contoh: Kantor Cabang Jakarta, Bandara Soekarno-Hatta" required />
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="tujuan">Tujuan Perjalanan <span class="required">*</span></label>
+                                    <input type="text" id="tujuan" name="tujuan"
+                                        placeholder="Contoh: Kantor Cabang Jakarta, Bandara Soekarno-Hatta" required />
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="info-box">
+                            <strong>Informasi Penting:</strong> Proses dalam 1 - 2 hari.
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            <svg width="20" height="20" fill="none" stroke="currentColor"
+                                viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                            </svg>
+                            Kirim Permintaan
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Services Section -->
     <section id="services" class="services">
         <div class="container">
@@ -65,7 +280,8 @@
             <div class="services-grid">
                 <div class="service-card">
                     <div class="service-icon">
-                        <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg width="32" height="32" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg>
@@ -79,7 +295,8 @@
 
                 <div class="service-card">
                     <div class="service-icon">
-                        <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg width="32" height="32" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
@@ -149,7 +366,8 @@
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-icon">
-                        <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg width="24" height="24" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M13 10V3L4 14h7v7l9-11h-7z" />
                         </svg>
@@ -266,250 +484,7 @@
         </div>
     </section>
 
-    <!-- CTA Section -->
-    {{-- <section class="cta-section">
-      <div class="container">
-        <div class="cta-content">
-          <h2>Siap Memulai?</h2>
-          <p>
-            Bergabunglah dengan ratusan organisasi yang telah mempercayakan
-            kebutuhan pengadaan dan peminjaman kepada kami
-          </p>
-          <a href="#forms" class="btn-primary">
-            <svg
-              width="20"
-              height="20"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-              />
-            </svg>
-            Buat Pengajuan Sekarang
-          </a>
-        </div>
-      </div>
-    </section> --}}
 
-    <!-- Forms Section -->
-    <section id="forms" class="forms-section">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Formulir Pengajuan</h2>
-                <p class="section-subtitle">
-                    Pilih layanan yang Anda butuhkan dan isi formulir dengan lengkap
-                </p>
-            </div>
-
-            <div class="menu-selector">
-                <button class="menu-btn active" onclick="showForm('food')" id="foodBtn">
-
-                    Permintaan Makanan
-                </button>
-                <button class="menu-btn" onclick="showForm('vehicle')" id="vehicleBtn">
-
-                    Permintaan Kendaraan
-                </button>
-            </div>
-
-            <div class="form-container">
-                <!-- Form Pengadaan Makanan -->
-                <div class="form-section active" id="foodForm">
-                    <div class="form-title">Formulir Permintaan Makanan</div>
-                    <p class="form-subtitle">
-                        Silakan lengkapi informasi berikut untuk mengajukan permintaan
-                        pengadaan makanan
-                    </p>
-
-                    <div class="success-message" id="foodSuccess">
-                        ✓ Permintaan pengadaan makanan berhasil dikirim dan akan segera
-                        diproses
-                    </div>
-
-                    <form id="foodFormActual" onsubmit="submitFoodForm(event)">
-
-                        <div class="card">
-                            <div class="section-title-form">Informasi Pemohon</div>
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label for="nama">Nama Lengkap <span class="required">*</span></label>
-                                    <input type="text" id="nama" name="nama" required />
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="sub_bidang_id">Sub Bidang <span class="required">*</span></label>
-                                    <select id="sub_bidang_id" name="sub_bidang_id" required>
-                                        <option value="">-- Pilih Sub Bidang --</option>
-                                        @foreach ($subBidang as $item)
-                                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="no_hp">Nomor Telepon <span class="required">*</span></label>
-                                    <input type="text" id="no_hp" name="no_hp" required />
-                                </div>
-                                <div class="form-group">
-                                    <label for="nid">NID <span class="required">*</span></label>
-                                    <input type="text" id="nid" name="nid" required />
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="section-title-form">Detail Acara</div>
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label for="judul_agenda">Judul Agenda <span class="required">*</span></label>
-                                    <input type="text" id="judul_agenda" name="judul_agenda" required />
-                                </div>
-                                <div class="form-group">
-                                    <label for="tanggal">Tanggal Acara <span class="required">*</span></label>
-                                    <input type="date" id="tanggal" name="tanggal" required />
-                                </div>
-                                <div class="form-group">
-                                    <label for="text">Durasi <span class="required">*</span></label>
-                                    <input type="text" id="text" name="durasi" required />
-                                </div>
-                                <div class="form-group">
-                                    <label for="jumlah">Jumlah
-                                        <span class="required">*</span></label>
-                                    <input type="number" id="jumlah" name="jumlah" min="1"
-                                        placeholder="0" required />
-                                </div>
-
-
-                                <div class="form-group full-width">
-                                    <label for="lokasi">Lokasi Acara <span class="required">*</span></label>
-                                    <input type="text" id="lokasi" name="lokasi"
-                                        placeholder="Contoh: Ruang A" required />
-                                </div>
-                                <div class="form-group">
-                                    <label for="file">Upload File Pendukung</label>
-                                    <input type="file" id="file" name="file"
-                                        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
-                                    <small class="form-text">Format yang diperbolehkan: PDF, DOC, JPG, PNG. Maksimal
-                                        5MB.</small>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="info-box">
-                            <strong>Informasi:</strong> Permintaan akan diproses dalam 1-2
-                            hari kerja. Tim akan menghubungi Anda untuk konfirmasi detail
-                            dan penawaran harga.
-                        </div>
-
-                        <button type="submit" class="submit-btn">
-                            <svg width="20" height="20" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                            </svg>
-                            Kirim Permintaan
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Form Peminjaman Kendaraan -->
-                <div class="form-section" id="vehicleForm">
-                    <div class="form-title">Formulir Permintaan Kendaraan Dinas</div>
-                    <p class="form-subtitle">
-                        Silakan lengkapi informasi berikut untuk mengajukan permintaan
-                        peminjaman kendaraan
-                    </p>
-
-                    <div class="success-message" id="vehicleSuccess" style="display: none;">
-                        ✓ Permintaan peminjaman kendaraan berhasil dikirim dan akan segera
-                        diproses
-                    </div>
-
-                    <form id="vehicleFormActual" onsubmit="submitVehicleForm(event)">
-
-                        <div class="card">
-                            <div class="section-title-form">Informasi Pemohon</div>
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label for="nama">Nama Lengkap <span class="required">*</span></label>
-                                    <input type="text" id="nama" name="nama" required />
-                                </div>
-                                <div class="form-group">
-                                    <label for="sub_bidang_id">Sub Bidang <span class="required">*</span></label>
-                                    <select id="sub_bidang_id" name="sub_bidang_id" required>
-                                        <option value="">-- Pilih Sub Bidang --</option>
-                                        @foreach ($subBidang as $item)
-                                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="no_hp">Nomor Telepon <span class="required">*</span></label>
-                                    <input type="text" id="no_hp" name="no_hp" required />
-                                </div>
-                                <div class="form-group">
-                                    <label for="nid">NID <span class="required">*</span></label>
-                                    <input type="text" id="nid" name="nid" required />
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="card">
-                            <div class="section-title-form">
-                                Detail Kendaraan & Perjalanan
-                            </div>
-                            <div class="form-grid">
-                                <div class="form-group">
-                                    <label for="tanggal_waktu">Tanggal <span class="required">*</span></label>
-                                    <input type="datetime-local" id="tanggal_waktu" name="tanggal_waktu" required />
-                                </div>
-                                <div class="form-group">
-                                    <label for="file">Upload File Pendukung</label>
-                                    <input type="file" id="file" name="file"
-                                        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
-                                    <small class="form-text">Format yang diperbolehkan: PDF, DOC, JPG, PNG. Maksimal
-                                        5MB.</small>
-                                </div>
-
-
-                                <div class="form-group full-width">
-                                    <label for="lokasi_penjemputan">Lokasi Penjemputan <span
-                                            class="required">*</span></label>
-                                    <input type="text" id="lokasi_penjemputan" name="lokasi_penjemputan"
-                                        placeholder="Contoh: Kantor Cabang Jakarta, Bandara Soekarno-Hatta" required />
-                                </div>
-                                <div class="form-group full-width">
-                                    <label for="tujuan">Tujuan Perjalanan <span class="required">*</span></label>
-                                    <input type="text" id="tujuan" name="tujuan"
-                                        placeholder="Contoh: Kantor Cabang Jakarta, Bandara Soekarno-Hatta" required />
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="info-box">
-                            <strong>Informasi Penting:</strong> Proses dalam 1 - 2 hari.
-                        </div>
-
-                        <button type="submit" class="submit-btn">
-                            <svg width="20" height="20" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                            </svg>
-                            Kirim Permintaan
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- Footer -->
     <footer class="footer">
@@ -526,52 +501,35 @@
             const form = event.target;
             const formData = new FormData(form);
 
+            // Tambahkan CSRF ke FormData
+            const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            formData.append('_token', token);
+
             fetch('/permintaan-makanan', {
                     method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    }
+                    body: formData
+                    // Jangan set headers Content-Type manual
                 })
                 .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Gagal mengirim data');
-                    }
+                    if (!response.ok) throw new Error('Gagal mengirim data');
                     return response.json();
                 })
                 .then(data => {
-                    console.log(data); // Ini isinya: { message: 'Sukses' }
+                    console.log(data);
 
-                    // Tampilkan pesan sukses
                     document.getElementById('foodSuccess').style.display = 'block';
-
-                    // Reset form
                     event.target.reset();
-
-                    // Scroll ke atas form
                     document.getElementById("foodForm").scrollIntoView({
                         behavior: "smooth"
                     });
 
-                    // Sembunyikan pesan setelah 8 detik
                     setTimeout(() => {
                         document.getElementById('foodSuccess').style.display = 'none';
                     }, 8000);
                 })
-
-                .catch(error => {
-                    alert('Terjadi kesalahan: ' + error.message);
-                });
-            const successEl = document.getElementById('foodSuccess');
-            console.log('foodSuccess element:', successEl);
-
-            if (successEl) {
-                successEl.style.display = 'block';
-            } else {
-                alert('Elemen #foodSuccess tidak ditemukan di halaman!');
-            }
-
+                .catch(error => alert('Terjadi kesalahan: ' + error.message));
         }
+
 
         function submitVehicleForm(event) {
             event.preventDefault();
@@ -579,12 +537,16 @@
             const form = event.target;
             const formData = new FormData(form);
 
+            // Tambahkan CSRF token ke FormData
+            const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            formData.append('_token', token);
+
             fetch('/permintaan-kendaraan', {
                     method: 'POST',
-                    body: formData,
+                    body: formData, // FormData otomatis menangani file
                     headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                        'Accept': 'application/json' // <-- ini WAJIB
+                        'Accept': 'application/json' // wajib agar Laravel balas JSON
+                        // Jangan set 'Content-Type' karena akan mengacaukan file upload
                     }
                 })
                 .then(async response => {
@@ -596,10 +558,8 @@
                     }
                     return response.json();
                 })
-
                 .then(data => {
                     const successEl = document.getElementById('vehicleSuccess');
-
                     if (successEl) {
                         successEl.style.display = 'block';
                         form.reset();

@@ -95,7 +95,15 @@
                                     <td>{{ $item->lokasi_penjemputan }}</td>
                                     <td>{{ $item->tanggal_waktu }}</td>
                                     <td>{{ $item->tujuan }}</td>
-                                    <td>{{ $item->file ?? '-' }} </td>
+                                    <td>
+                                        @if ($item->file)
+                                            <a href="{{ asset('storage/' . $item->file) }}" target="_blank">
+                                                File
+                                            </a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                     <td>
                                         <span
                                             class="status-badge 

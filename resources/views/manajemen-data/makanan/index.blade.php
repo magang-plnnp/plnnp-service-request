@@ -110,7 +110,15 @@
                                     <td>{{ $item->durasi }}</td>
                                     <td>{{ $item->jumlah }}</td>
                                     <td>{{ $item->lokasi }}</td>
-                                    <td>{{ $item->file ?? '-' }}</td>
+                                    <td>
+                                        @if ($item->file)
+                                            <a href="{{ asset('storage/' . $item->file) }}" target="_blank">
+                                                File
+                                            </a>
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
                                     <td>
                                         <span
                                             class="status-badge 
