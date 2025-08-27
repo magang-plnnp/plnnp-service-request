@@ -109,11 +109,11 @@
 
                                 <div class="form-group">
                                     <label for="no_hp">Nomor Telepon <span class="required">*</span></label>
-                                    <input type="text" id="no_hp" name="no_hp" required />
+                                    <input type="number" id="no_hp" name="no_hp" required />
                                 </div>
                                 <div class="form-group">
                                     <label for="nid">NID <span class="required">*</span></label>
-                                    <input type="text" id="nid" name="nid" required />
+                                    <input type="number" id="nid" name="nid" required />
                                 </div>
 
                             </div>
@@ -207,11 +207,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="no_hp">Nomor Telepon <span class="required">*</span></label>
-                                    <input type="text" id="no_hp" name="no_hp" required />
+                                    <input type="number" id="no_hp" name="no_hp" required />
                                 </div>
                                 <div class="form-group">
                                     <label for="nid">NID <span class="required">*</span></label>
-                                    <input type="text" id="nid" name="nid" required />
+                                    <input type="number" id="nid" name="nid" required />
                                 </div>
                             </div>
                         </div>
