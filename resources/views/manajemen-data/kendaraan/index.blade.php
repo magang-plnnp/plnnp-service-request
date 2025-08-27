@@ -239,7 +239,7 @@
     </div>
 
 
-
+    <div id="toast" class="toast"></div>
 @endsection
 
 @push('scripts')
@@ -271,7 +271,7 @@
                         row.classList.add("status-approved");
                     }
 
-                    // alert("Peminjaman berhasil di-Acc!");
+                    showToast("Data berhasil di-ACC!", "success");
                     closeModal('peminjamanAccModal');
                 });
         }
@@ -295,7 +295,7 @@
                         row.classList.add("status-rejected");
                     }
 
-                    // alert("Peminjaman berhasil ditolak!");
+                    showToast("Data berhasil ditolak!", "error");
                     closeModal('peminjamanTolakModal');
                 });
         }
@@ -317,7 +317,7 @@
                         row.remove();
                     }
 
-                    // alert("Peminjaman berhasil dihapus!");
+                    showToast("Data berhasil dihapus!", "info");
                     closeModal('peminjamanHapusModal');
                 });
         }
@@ -610,5 +610,18 @@
 
             renderTablePage(); // Initial render
         });
+    </script>
+
+    {{-- TOAST --}}
+    <script>
+        function showToast(message, type = "success") {
+            const toast = document.getElementById("toast");
+            toast.className = `toast ${type} show`;
+            toast.textContent = message;
+
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 6000); // hilang otomatis setelah 3 detik
+        }
     </script>
 @endpush

@@ -231,6 +231,7 @@
             </div>
         </div>
     </div>
+    <div id="toast" class="toast"></div>
 @endsection
 
 @push('scripts')
@@ -241,6 +242,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <!-- Inisialisasi DataTable -->
     <script>
         function accPeminjaman() {
@@ -263,6 +265,7 @@
                     }
 
                     // alert("Peminjaman berhasil di-Acc!");
+                    showToast("Data berhasil di-ACC!", "success");
                     closeModal('peminjamanAccModal');
                 });
         }
@@ -287,6 +290,7 @@
                     }
 
                     // alert("Peminjaman berhasil ditolak!");
+                    showToast("Data berhasil ditolak!", "error");
                     closeModal('peminjamanTolakModal');
                 });
         }
@@ -308,7 +312,7 @@
                         row.remove();
                     }
 
-                    // alert("Peminjaman berhasil dihapus!");
+                    showToast("Data berhasil dihapus!", "info");
                     closeModal('peminjamanHapusModal');
                 });
         }
@@ -557,5 +561,18 @@
 
             renderTablePage(); // Initial render
         });
+    </script>
+
+    {{-- TOAST --}}
+    <script>
+        function showToast(message, type = "success") {
+            const toast = document.getElementById("toast");
+            toast.className = `toast ${type} show`;
+            toast.textContent = message;
+
+            setTimeout(() => {
+                toast.classList.remove("show");
+            }, 6000); // hilang otomatis setelah 3 detik
+        }
     </script>
 @endpush
