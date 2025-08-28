@@ -20,7 +20,7 @@
 
 
                         </svg>
-                        Data Peminjaman Kendaraan
+                        Data Pemesanan Kendaraan
                     </div>
                     <div class="datatable-actions">
                         <div class="search-box">

@@ -18,7 +18,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
-                        Data Peminjaman Kendaraan
+                        Data Permintaan Konsumsi
                     </div>
                     <div class="datatable-actions">
                         <div class="search-box">
@@ -106,9 +106,9 @@
                                     <td>{{ $item->subBidang->nama ?? '-' }}</td>
                                     <td>{{ $item->no_hp }}</td>
                                     <td>{{ $item->judul_agenda }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($item->tanggal)->locale('id')->isoFormat('D MMMM Y, HH:mm') }}
+                                    <td>{{ \Carbon\Carbon::parse($item->tanggal)->locale('id')->isoFormat('D MMMM Y') }}
                                     </td>
-                                    <td>{{ $item->durasi }}</td>
+                                    <td>{{ $item->durasi->nama }}</td>
                                     <td>{{ $item->jumlah }}</td>
                                     <td>{{ $item->lokasi }}</td>
                                     <td>

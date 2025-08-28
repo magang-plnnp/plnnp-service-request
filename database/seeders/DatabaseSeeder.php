@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
             SubBidangTableSeeder::class,
             PermintaanKendaraanSeeder::class,
             PermintaanMakananSeeder::class,
+            DurasiSeeder::class,
         ]);
     }
 }

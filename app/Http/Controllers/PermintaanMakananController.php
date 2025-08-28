@@ -13,9 +13,9 @@ class PermintaanMakananController extends Controller
 {
     public function index()
     {
-        $subBidang = SubBidang::all();
-        $permintaanMakanan = PermintaanMakanan::with('subBidang')->latest()->get();
-        return view('manajemen-data.makanan.index', compact('permintaanMakanan', 'subBidang'));
+    $subBidang = SubBidang::all();
+    $permintaanMakanan = PermintaanMakanan::with('durasi')->get();
+    return view('manajemen-data.makanan.index', compact('permintaanMakanan', 'subBidang'));
     }
 
     public function store(Request $request)
@@ -27,7 +27,7 @@ class PermintaanMakananController extends Controller
         'no_hp' => 'required|string|max:20',
         'judul_agenda' => 'required|string|max:255',
         'tanggal' => 'required|date',
-        'durasi' => 'required|string|max:50',
+        'durasi' => 'required|exists:durasi,id',
         'jumlah' => 'required|integer|min:1',
         'lokasi' => 'required|string|max:255',
         'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:5120',
@@ -56,7 +56,7 @@ class PermintaanMakananController extends Controller
 
     // 🔹 Kirim notifikasi ke WhatsApp Group
     try {
-        $response = Http::post('http://localhost:3000/send-group', [
+        $response = Http::post('https://whatsapp-api-production-cb24.up.railway.app/send-group', [
             'groupId' => '120363421755577468@g.us', // ganti sesuai grup kamu
             'message' => "📢 Permintaan Makanan Baru:\n\n" .
                          "Nama: {$data['nama']}\n" .

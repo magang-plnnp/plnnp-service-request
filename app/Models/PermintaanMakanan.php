@@ -33,6 +33,12 @@ class PermintaanMakanan extends Model
         return $this->belongsTo(SubBidang::class);
     }
 
+    public function durasi()
+{
+    return $this->belongsTo(Durasi::class);
+}
+
+
     public function approvedBy()
     {
         return $this->belongsTo(User::class, 'approved_by');

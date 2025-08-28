@@ -96,7 +96,10 @@
                                     <label for="nama">Nama Lengkap <span class="required">*</span></label>
                                     <input type="text" id="nama" name="nama" required />
                                 </div>
-
+                                <div class="form-group">
+                                    <label for="nid">NID <span class="required">*</span></label>
+                                    <input type="number" id="nid" name="nid" required />
+                                </div>
                                 <div class="form-group">
                                     <label for="sub_bidang_id">Sub Bidang <span class="required">*</span></label>
                                     <select id="sub_bidang_id" name="sub_bidang_id" required>
@@ -108,18 +111,13 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="no_hp">Nomor Telepon <span class="required">*</span></label>
+                                    <label for="no_hp">Nomor Telepon<span class="required">*</span></label>
                                     <input type="number" id="no_hp" name="no_hp" required />
                                     <small class="form-text text-muted">
                                         Format yang diperbolehkan: harus seperti <strong>081287651209</strong> (dimulai
                                         dengan 0). Tanpa spasi/tanda baca.
                                     </small>
                                 </div>
-                                <div class="form-group">
-                                    <label for="nid">NID <span class="required">*</span></label>
-                                    <input type="number" id="nid" name="nid" required />
-                                </div>
-
                             </div>
                         </div>
 
@@ -135,11 +133,18 @@
                                     <input type="date" id="tanggal" name="tanggal" required />
                                 </div>
                                 <div class="form-group">
-                                    <label for="text">Durasi <span class="required">*</span></label>
-                                    <input type="number" id="text" name="durasi" required />
+                                    <label for="durasi">Durasi <span class="required">*</span></label>
+                                    <select id="durasi" name="durasi" required>
+                                        <option value="">-- Pilih Durasi --</option>
+                                        @foreach ($durasi as $d)
+                                            <option value="{{ $d->id }}"
+                                                data-keterangan="{{ $d->keterangan }}">{{ $d->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                    <small id="durasiKeterangan" class="form-text text-muted"></small>
                                 </div>
                                 <div class="form-group">
-                                    <label for="jumlah">Jumlah
+                                    <label for="jumlah">Jumlah (Orang)
                                         <span class="required">*</span></label>
                                     <input type="number" id="jumlah" name="jumlah" min="1"
                                         placeholder="0" required />
@@ -201,6 +206,10 @@
                                     <input type="text" id="nama" name="nama" required />
                                 </div>
                                 <div class="form-group">
+                                    <label for="nid">NID <span class="required">*</span></label>
+                                    <input type="number" id="nid" name="nid" required />
+                                </div>
+                                <div class="form-group">
                                     <label for="sub_bidang_id">Sub Bidang <span class="required">*</span></label>
                                     <select id="sub_bidang_id" name="sub_bidang_id" required>
                                         <option value="">-- Pilih Sub Bidang --</option>
@@ -217,10 +226,6 @@
                                         dengan 0). Tanpa spasi/tanda baca.
                                     </small>
                                 </div>
-                                <div class="form-group">
-                                    <label for="nid">NID <span class="required">*</span></label>
-                                    <input type="number" id="nid" name="nid" required />
-                                </div>
                             </div>
                         </div>
 
@@ -230,7 +235,8 @@
                             </div>
                             <div class="form-grid">
                                 <div class="form-group">
-                                    <label for="tanggal_waktu">Tanggal <span class="required">*</span></label>
+                                    <label for="tanggal_waktu">Tanggal dan Waktu Penjemputan<span
+                                            class="required">*</span></label>
                                     <input type="datetime-local" id="tanggal_waktu" name="tanggal_waktu" required />
                                 </div>
                                 <div class="form-group">
@@ -501,6 +507,12 @@
         </div>
     </footer>
 
+    <script>
+        flatpickr("#tanggal", {
+            dateFormat: "d/m/Y",
+            defaultDate: "28/08/2025", // format dd/mm/yyyy
+        });
+    </script>
     <script src="{{ asset('landing/script.js') }}"></script>
     <script>
         function submitFoodForm(event) {
@@ -587,6 +599,15 @@
                     alert('Terjadi kesalahan: ' + error.message);
                 });
         }
+
+        const selectDurasi = document.getElementById('durasi');
+        const keterangan = document.getElementById('durasiKeterangan');
+
+        selectDurasi.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const desc = selectedOption.getAttribute('data-keterangan');
+            keterangan.textContent = desc ? 'Keterangan: ' + desc : '';
+        });
     </script>
 </body>
 
