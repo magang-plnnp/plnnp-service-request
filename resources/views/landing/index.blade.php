@@ -219,7 +219,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="no_hp">Nomor Telepon <span class="required">*</span></label>
+                                    <label for="no_hp">Nomor Whatsapp <span class="required">*</span></label>
                                     <input type="number" id="no_hp" name="no_hp" required />
                                     <small class="form-text text-muted">
                                         Format yang diperbolehkan: harus seperti <strong>081287651209</strong> (dimulai
@@ -240,7 +240,7 @@
                                     <input type="datetime-local" id="tanggal_waktu" name="tanggal_waktu" required />
                                 </div>
                                 <div class="form-group">
-                                    <label for="file">Upload File Pendukung</label>
+                                    <label for="file">Upload (Surat/ams/wo/dll)</label>
                                     <input type="file" id="file" name="file"
                                         accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
                                     <small class="form-text">Format yang diperbolehkan: PDF. Maksimal
@@ -256,6 +256,16 @@
                                 </div>
                                 <div class="form-group full-width">
                                     <label for="tujuan">Tujuan Perjalanan <span class="required">*</span></label>
+                                    <input type="text" id="tujuan" name="tujuan"
+                                        placeholder="Contoh: Kantor Cabang Jakarta, Bandara Soekarno-Hatta" required />
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="tujuan">Keperluan <span class="required">*</span></label>
+                                    <input type="text" id="tujuan" name="tujuan"
+                                        placeholder="Contoh: Kantor Cabang Jakarta, Bandara Soekarno-Hatta" required />
+                                </div>
+                                <div class="form-group full-width">
+                                    <label for="tujuan">Jenis Kendaraan <span class="required">*</span></label>
                                     <input type="text" id="tujuan" name="tujuan"
                                         placeholder="Contoh: Kantor Cabang Jakarta, Bandara Soekarno-Hatta" required />
                                 </div>

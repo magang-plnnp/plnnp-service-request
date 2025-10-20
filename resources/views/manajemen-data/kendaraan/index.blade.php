@@ -5,6 +5,39 @@
 @push('styles')
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="{{ asset('datatables/style.css') }}" />
+    <style>
+        .select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-top: 6px;
+            font-size: 14px;
+        }
+
+        .label {
+            display: block;
+            margin-top: 12px;
+            font-weight: 500;
+        }
+    </style>
+    <style>
+        .label {
+            display: block;
+            margin-top: 12px;
+            font-weight: 500;
+        }
+
+        .textarea {
+            width: 100%;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            margin-top: 6px;
+            resize: none;
+            font-size: 14px;
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -201,7 +234,18 @@
                 <button class="modal-close" onclick="closeModal('peminjamanAccModal')">✕</button>
             </div>
             <div class="modal-body">
+                <!-- Dropdown Pilih Driver -->
+                <label for="driverSelect" class="label">Pilih Driver:</label>
+                <select id="driverSelect" class="select">
+                    <option value="" disabled selected>-- Pilih Driver --</option>
+                    <option value="1">Budi Santoso</option>
+                    <option value="2">Rina Wijaya</option>
+                    <option value="3">Agus Prasetyo</option>
+                    <option value="4">Dewi Lestari</option>
+                </select>
                 <p>Apakah Anda yakin ingin menyetujui peminjaman ini?</p>
+
+
             </div>
             <div class="modal-footer">
                 <button class="btn btn-cancel" onclick="closeModal('peminjamanAccModal')">Batal</button>
@@ -220,6 +264,10 @@
             </div>
             <div class="modal-body">
                 <p>Apakah Anda yakin ingin menolak peminjaman ini?</p>
+
+                <!-- Kolom Keterangan Penolakan -->
+                <label for="keteranganTolak" class="label">Keterangan :</label>
+                <textarea id="keteranganTolak" class="textarea" rows="3" placeholder="Tuliskan alasan penolakan..."></textarea>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-cancel" onclick="closeModal('peminjamanTolakModal')">Batal</button>
@@ -233,6 +281,43 @@
 @endsection
 
 @push('scripts')
+    <script>
+        function accPeminjaman() {
+            const id = document.getElementById('accId').value;
+            const driverId = document.getElementById('driverSelect').value;
+
+            if (!driverId) {
+                alert('Silakan pilih driver terlebih dahulu.');
+                return;
+            }
+
+            // Contoh output (sementara hanya log ke console)
+            console.log("Peminjaman ID:", id);
+            console.log("Driver terpilih:", driverId);
+
+            // Di sini nantinya bisa ditambah request ke backend
+            closeModal('peminjamanAccModal');
+            alert('Peminjaman telah disetujui dengan driver ID: ' + driverId);
+        }
+    </script>
+    <script>
+        function tolakPeminjaman() {
+            const id = document.getElementById('tolakId').value;
+            const keterangan = document.getElementById('keteranganTolak').value.trim();
+
+            if (!keterangan) {
+                alert('Silakan isi alasan penolakan terlebih dahulu.');
+                return;
+            }
+
+            // Contoh output sementara
+            console.log("Peminjaman ID:", id);
+            console.log("Alasan penolakan:", keterangan);
+
+            closeModal('peminjamanTolakModal');
+            alert('Peminjaman telah ditolak dengan alasan: ' + keterangan);
+        }
+    </script>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
