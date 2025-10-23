@@ -1,11 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DriverController;
+use App\Http\Controllers\JenisKendaraanController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\PermintaanKendaraanController;
 use App\Http\Controllers\PermintaanMakananController;
+use App\Http\Controllers\SubBidangController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +34,6 @@ Route::middleware('guest')->group(function () {
 Route::post('/permintaan-makanan', [PermintaanMakananController::class, 'store'])->name('permintaan-makanan.store');
 Route::post('/permintaan-kendaraan', [PermintaanKendaraanController::class, 'store'])->name('permintaan-kendaraan.store');
 
-
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -41,6 +43,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/kendaraan/{id}/acc', [PermintaanKendaraanController::class, 'acc'])->name('kendaraan.acc');
         Route::post('/kendaraan/{id}/tolak', [PermintaanKendaraanController::class, 'tolak'])->name('kendaraan.tolak');
         Route::delete('/kendaraan/{id}', [PermintaanKendaraanController::class, 'destroy'])->name('kendaraan.destroy');
+        Route::get('/subbidang', [SubBidangController::class, 'index'])->name('subbidang.index');
+        Route::get('/driver', [DriverController::class, 'index'])->name('driver.index');
+        Route::get('/jeniskendaraan', [JenisKendaraanController::class, 'index'])->name('jeniskendaraan.index');
 
         Route::get('/makanan', [PermintaanMakananController::class, 'index'])->name('makanan.index');
         Route::post('/makanan/{id}/acc', [PermintaanMakananController::class, 'acc'])->name('makanan.acc');

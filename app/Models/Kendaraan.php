@@ -9,5 +9,13 @@ class Kendaraan extends Model
     use HasFactory;
 
     protected $table = 'kendaraan';
-    protected $fillable = ['nama_kendaraan'];
+
+    protected $fillable = [
+        'nama_kendaraan',
+    ];
+
+    public function permintaanKendaraan()
+    {
+        return $this->hasMany(PermintaanKendaraan::class);
+    }
 }
