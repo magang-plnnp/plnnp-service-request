@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\SubBidang;
@@ -9,8 +8,9 @@ class SubBidangController extends Controller
 {
     public function index()
     {
-        $subbidangs = SubBidang::all();
-        return view('sub_bidang.index', compact('subbidangs'));
+        $subbidang = SubBidang::all();
+        return view('manajemen-data.subbidang.index', compact('subbidang'));
+
     }
 
     public function create()
