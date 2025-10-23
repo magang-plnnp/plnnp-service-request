@@ -8,7 +8,7 @@ class Driver extends Model
 {
     use HasFactory;
 
-    protected $table = 'driver';
+    protected $table = 'driver'; 
 
     protected $fillable = [
         'nama_driver',

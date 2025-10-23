@@ -111,6 +111,8 @@
                                 <th>Penjemputan</th>
                                 <th>Tanggal</th>
                                 <th>Tujuan</th>
+                                <th>Keperluan</th>
+                                <th>Kendaraan</th>
                                 <th>File</th>
                                 <th>Status</th>
                                 <th>Aksi</th>
@@ -129,11 +131,11 @@
                                     <td>{{ \Carbon\Carbon::parse($item->tanggal_waktu)->locale('id')->isoFormat('D MMMM Y, HH:mm') }}
                                     </td>
                                     <td>{{ $item->tujuan }}</td>
+                                    <td>{{ $item->keperluan ?? '-' }}</td>
+                                    <td>{{ $item->kendaraan->nama_kendaraan ?? '-' }}</td>
                                     <td>
                                         @if ($item->file)
-                                            <a href="{{ asset('storage/' . $item->file) }}" target="_blank">
-                                                File
-                                            </a>
+                                            <a href="{{ asset('storage/' . $item->file) }}" target="_blank">File</a>
                                         @else
                                             -
                                         @endif
@@ -141,14 +143,13 @@
                                     <td>
                                         <span
                                             class="status-badge 
-    {{ $item->status === 'approved'
-        ? 'status-approved'
-        : ($item->status === 'rejected'
-            ? 'status-rejected'
-            : 'status-pending') }}">
+                            {{ $item->status === 'approved'
+                                ? 'status-approved'
+                                : ($item->status === 'rejected'
+                                    ? 'status-rejected'
+                                    : 'status-pending') }}">
                                             {{ $item->status }}
                                         </span>
-
                                     </td>
                                     <td>
                                         <div class="action-buttons">
@@ -157,13 +158,11 @@
                                                 {{ $item->status !== 'pending' ? 'disabled style=opacity:0.5;cursor:not-allowed;' : '' }}>
                                                 Acc
                                             </button>
-
                                             <button class="btn btn-sm btn-reject"
                                                 onclick="openModal('peminjamanTolakModal', {{ $item->id }})"
                                                 {{ $item->status !== 'pending' ? 'disabled style=opacity:0.5;cursor:not-allowed;' : '' }}>
                                                 Tolak
                                             </button>
-
                                             <button class="btn btn-sm btn-delete"
                                                 onclick="openModal('peminjamanHapusModal', {{ $item->id }})">Hapus</button>
                                         </div>
@@ -172,38 +171,36 @@
                             @endforeach
                         </tbody>
                     </table>
-
-
-                    <div class="datatable-footer">
-                        <div class="pagination-info">
-                            Menampilkan <strong id="currentRange">1-10</strong> dari <strong id="totalCount">0</strong> data
-                        </div>
-                        <div class="pagination">
-                            <button class="pagination-btn" id="prevPage">
-                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 19l-7-7 7-7" />
-                                </svg>
-                            </button>
-                            <span id="customPaginationButtons"></span>
-                            <button class="pagination-btn" id="nextPage">
-                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 5l7 7-7 7" />
-                                </svg>
-                            </button>
-                            <select class="pagination-select" id="itemsPerPage">
-                                <option value="10">10 / halaman</option>
-                                <option value="25">25 / halaman</option>
-                                <option value="50">50 / halaman</option>
-                                <option value="100">100 / halaman</option>
-                            </select>
-                        </div>
-                    </div>
-
                 </div>
+
+                <div class="datatable-footer">
+                    <div class="pagination-info">
+                        Menampilkan <strong id="currentRange">1-10</strong> dari <strong id="totalCount">0</strong> data
+                    </div>
+                    <div class="pagination">
+                        <button class="pagination-btn" id="prevPage">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                        </button>
+                        <span id="customPaginationButtons"></span>
+                        <button class="pagination-btn" id="nextPage">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                        <select class="pagination-select" id="itemsPerPage">
+                            <option value="10">10 / halaman</option>
+                            <option value="25">25 / halaman</option>
+                            <option value="50">50 / halaman</option>
+                            <option value="100">100 / halaman</option>
+                        </select>
+                    </div>
+                </div>
+
             </div>
         </div>
+    </div>
     </div>
 
     <!-- Modal Hapus Peminjaman -->
@@ -238,14 +235,11 @@
                 <label for="driverSelect" class="label">Pilih Driver:</label>
                 <select id="driverSelect" class="select">
                     <option value="" disabled selected>-- Pilih Driver --</option>
-                    <option value="1">Budi Santoso</option>
-                    <option value="2">Rina Wijaya</option>
-                    <option value="3">Agus Prasetyo</option>
-                    <option value="4">Dewi Lestari</option>
+                    @foreach ($drivers as $driver)
+                        <option value="{{ $driver->id }}">{{ $driver->nama_driver }}</option>
+                    @endforeach
                 </select>
-                <p>Apakah Anda yakin ingin menyetujui peminjaman ini?</p>
-
-
+                <p class="mt-3">Apakah Anda yakin ingin menyetujui peminjaman ini?</p>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-cancel" onclick="closeModal('peminjamanAccModal')">Batal</button>
@@ -328,72 +322,99 @@
     <!-- Inisialisasi DataTable -->
     <script>
         function accPeminjaman() {
-            let id = document.getElementById('accId').value;
+            const id = document.getElementById('accId').value;
+            const driverId = document.getElementById('driverSelect').value;
+
+            if (!driverId) {
+                alert('Silakan pilih driver terlebih dahulu.');
+                return;
+            }
 
             fetch(`/admin/kendaraan/${id}/acc`, {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                         'Content-Type': 'application/json'
-                    }
-                }).then(res => res.json())
+                    },
+                    body: JSON.stringify({
+                        driver_id: driverId
+                    })
+                })
+                .then(res => res.json())
                 .then(data => {
-                    // update tampilan status di row
-                    let row = document.querySelector(`tr[data-id="${id}"] .status-badge`);
-                    if (row) {
-                        row.textContent = "approved";
-                        row.classList.remove("status-rejected");
-                        row.classList.add("status-approved");
+                    if (data.success) {
+                        // update tampilan status
+                        const badge = document.querySelector(`tr[data-id="${id}"] .status-badge`);
+                        if (badge) {
+                            badge.textContent = "approved";
+                            badge.classList.remove("status-rejected", "status-pending");
+                            badge.classList.add("status-approved");
+                        }
+
+                        // disable tombol setelah acc
+                        const row = document.querySelector(`tr[data-id="${id}"]`);
+                        row.querySelector(".btn-acc").disabled = true;
+                        row.querySelector(".btn-reject").disabled = true;
+                        row.querySelector(".btn-acc").style.opacity = "0.5";
+                        row.querySelector(".btn-reject").style.opacity = "0.5";
+
+                        showToast("Data berhasil di-ACC!", "success");
+                        closeModal('peminjamanAccModal');
                     }
-
-                    // disable tombol setelah acc
-                    let btnAcc = document.querySelector(`tr[data-id="${id}"] .btn-acc`);
-                    let btnReject = document.querySelector(`tr[data-id="${id}"] .btn-reject`);
-                    if (btnAcc) btnAcc.disabled = true;
-                    if (btnReject) btnReject.disabled = true;
-                    if (btnAcc) btnAcc.style.opacity = 0.5;
-                    if (btnReject) btnReject.style.opacity = 0.5;
-                    if (btnAcc) btnAcc.style.cursor = "not-allowed";
-                    if (btnReject) btnReject.style.cursor = "not-allowed";
-
-                    showToast("Data berhasil di-ACC!", "success");
-                    closeModal('peminjamanAccModal');
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Terjadi kesalahan saat menyetujui data!");
                 });
         }
 
         function tolakPeminjaman() {
-            let id = document.getElementById('tolakId').value;
+            const id = document.getElementById('tolakId').value;
+            const keterangan = document.getElementById('keteranganTolak').value.trim();
+
+            if (!keterangan) {
+                alert('Silakan isi alasan penolakan terlebih dahulu.');
+                return;
+            }
 
             fetch(`/admin/kendaraan/${id}/tolak`, {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                         'Content-Type': 'application/json'
-                    }
-                }).then(res => res.json())
+                    },
+                    body: JSON.stringify({
+                        keterangan
+                    })
+                })
+                .then(res => res.json())
                 .then(data => {
-                    // update tampilan status di row
-                    let row = document.querySelector(`tr[data-id="${id}"] .status-badge`);
-                    if (row) {
-                        row.textContent = "rejected";
-                        row.classList.remove("status-approved");
-                        row.classList.add("status-rejected");
+                    if (data.success) {
+                        // update tampilan status
+                        const badge = document.querySelector(`tr[data-id="${id}"] .status-badge`);
+                        if (badge) {
+                            badge.textContent = "rejected";
+                            badge.classList.remove("status-approved", "status-pending");
+                            badge.classList.add("status-rejected");
+                        }
+
+                        // disable tombol
+                        const row = document.querySelector(`tr[data-id="${id}"]`);
+                        row.querySelector(".btn-acc").disabled = true;
+                        row.querySelector(".btn-reject").disabled = true;
+                        row.querySelector(".btn-acc").style.opacity = "0.5";
+                        row.querySelector(".btn-reject").style.opacity = "0.5";
+
+                        showToast("Data berhasil ditolak!", "error");
+                        closeModal('peminjamanTolakModal');
                     }
-
-                    // disable tombol setelah tolak
-                    let btnAcc = document.querySelector(`tr[data-id="${id}"] .btn-acc`);
-                    let btnReject = document.querySelector(`tr[data-id="${id}"] .btn-reject`);
-                    if (btnAcc) btnAcc.disabled = true;
-                    if (btnReject) btnReject.disabled = true;
-                    if (btnAcc) btnAcc.style.opacity = 0.5;
-                    if (btnReject) btnReject.style.opacity = 0.5;
-                    if (btnAcc) btnAcc.style.cursor = "not-allowed";
-                    if (btnReject) btnReject.style.cursor = "not-allowed";
-
-                    showToast("Data berhasil ditolak!", "error");
-                    closeModal('peminjamanTolakModal');
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Terjadi kesalahan saat menolak data!");
                 });
         }
+
 
         function hapusPeminjaman() {
             let id = document.getElementById('hapusId').value;

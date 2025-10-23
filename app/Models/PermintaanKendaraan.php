@@ -19,16 +19,29 @@ class PermintaanKendaraan extends Model
         'lokasi_penjemputan',
         'tanggal_waktu',
         'tujuan',
+        'keperluan',
+        'kendaraan_id',
+        'driver_id',
         'file',
         'status',
+        'keterangan',
         'approved_by',
         'approved_at',
     ];
 
-    // Relasi
     public function subBidang()
     {
         return $this->belongsTo(SubBidang::class);
+    }
+
+    public function kendaraan()
+    {
+        return $this->belongsTo(Kendaraan::class, 'kendaraan_id');
+    }
+
+    public function driver()
+    {
+        return $this->belongsTo(Driver::class, 'driver_id');
     }
 
     public function approvedBy()
