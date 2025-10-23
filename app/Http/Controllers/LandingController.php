@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\SubBidang;
 use App\Models\Durasi;
+use App\Models\Kendaraan;
 use Illuminate\Http\Request;
 
 class LandingController extends Controller
@@ -12,6 +13,8 @@ class LandingController extends Controller
     {
         $subBidang = SubBidang::all();
         $durasi = Durasi::all(); 
-        return view('landing.index', compact('subBidang', 'durasi'));
+        $kendaraan = Kendaraan::all();
+
+        return view('landing.index', compact('subBidang', 'durasi', 'kendaraan'));
     }
 }

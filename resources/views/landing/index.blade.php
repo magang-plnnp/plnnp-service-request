@@ -260,18 +260,22 @@
                                         placeholder="Contoh: Kantor Cabang Jakarta, Bandara Soekarno-Hatta" required />
                                 </div>
                                 <div class="form-group full-width">
-                                    <label for="tujuan">Keperluan <span class="required">*</span></label>
-                                    <input type="text" id="tujuan" name="tujuan"
-                                        placeholder="Contoh: Kantor Cabang Jakarta, Bandara Soekarno-Hatta" required />
+                                    <label for="keperluan">Keperluan <span class="required">*</span></label>
+                                    <input type="text" id="keperluan" name="keperluan"
+                                        placeholder="Contoh: Rapat koordinasi di Surabaya" required />
                                 </div>
+
                                 <div class="form-group full-width">
-                                    <label for="tujuan">Jenis Kendaraan <span class="required">*</span></label>
-                                    <input type="text" id="tujuan" name="tujuan"
-                                        placeholder="Contoh: Kantor Cabang Jakarta, Bandara Soekarno-Hatta" required />
+                                    <label for="kendaraan_id">Jenis Kendaraan <span class="required">*</span></label>
+                                    <select id="kendaraan_id" name="kendaraan_id" required>
+                                        <option value="">-- Pilih Jenis Kendaraan --</option>
+                                        @foreach ($kendaraan as $item)
+                                            <option value="{{ $item->id }}">{{ $item->nama_kendaraan }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
-
 
                         <div class="info-box">
                             <strong>Informasi Penting:</strong> Proses dalam 1 - 2 hari.
