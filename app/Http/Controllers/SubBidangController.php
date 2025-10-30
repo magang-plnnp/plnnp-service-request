@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\SubBidang;
@@ -6,56 +7,52 @@ use Illuminate\Http\Request;
 
 class SubBidangController extends Controller
 {
+    // Tampilkan halaman utama
     public function index()
     {
         $subbidang = SubBidang::all();
         return view('manajemen-data.subbidang.index', compact('subbidang'));
-
     }
 
-    public function create()
-    {
-        return view('sub_bidang.create');
-    }
-
+    // Simpan data baru (AJAX)
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama' => 'required|max:100',
         ]);
 
-        SubBidang::create($request->only('nama'));
+        $subbidang = SubBidang::create($validated);
 
-        return redirect()->route('sub-bidang.index')->with('success', 'Sub bidang created successfully.');
+        return response()->json([
+            'message' => 'Sub bidang berhasil ditambahkan.',
+            'data' => $subbidang
+        ], 201);
     }
 
-    public function show($id)
-    {
-        $subbidang = SubBidang::findOrFail($id);
-        return view('sub_bidang.show', compact('subbidang'));
-    }
-
-    public function edit($id)
-    {
-        $subbidang = SubBidang::findOrFail($id);
-        return view('sub_bidang.edit', compact('subbidang'));
-    }
-
+    // Update data (AJAX)
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $validated = $request->validate([
             'nama' => 'required|max:100',
         ]);
 
         $subbidang = SubBidang::findOrFail($id);
-        $subbidang->update($request->only('nama'));
+        $subbidang->update($validated);
 
-        return redirect()->route('sub-bidang.index')->with('success', 'Sub bidang updated.');
+        return response()->json([
+            'message' => 'Sub bidang berhasil diperbarui.',
+            'data' => $subbidang
+        ]);
     }
 
+    // Hapus data (AJAX)
     public function destroy($id)
     {
-        SubBidang::destroy($id);
-        return redirect()->route('sub-bidang.index')->with('success', 'Sub bidang deleted.');
+        $subbidang = SubBidang::findOrFail($id);
+        $subbidang->delete();
+
+        return response()->json([
+            'message' => 'Sub bidang berhasil dihapus.'
+        ]);
     }
 }

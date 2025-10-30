@@ -20,22 +20,60 @@
             margin-top: 12px;
             font-weight: 500;
         }
-    </style>
-    <style>
-        .label {
-            display: block;
-            margin-top: 12px;
-            font-weight: 500;
+
+        .btn-add {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s;
         }
 
-        .textarea {
-            width: 100%;
-            padding: 8px;
+        .btn-add:hover {
+            background-color: #1d4ed8;
+        }
+
+        .btn {
+            border: none;
             border-radius: 8px;
-            border: 1px solid #ccc;
-            margin-top: 6px;
-            resize: none;
+            padding: 8px 14px;
             font-size: 14px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-cancel {
+            background-color: #e5e7eb;
+        }
+
+        .btn-success {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #1d4ed8;
+        }
+
+        .btn-danger {
+            background-color: #dc2626;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #b91c1c;
+        }
+
+        .btn-warning {
+            background-color: #f59e0b;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background-color: #d97706;
         }
     </style>
 @endpush
@@ -44,17 +82,15 @@
     <div class="page-content active" id="peminjamanPage">
         <div class="dashboard-content">
             <div class="datatable-container">
-                {{-- HEADER --}}
                 <div class="datatable-header">
                     <div class="datatable-title">
                         <svg fill="none" stroke="#4b5563" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-
-
                         </svg>
-                        Data Pemesanan Kendaraan
+                        Data Driver
                     </div>
+
                     <div class="datatable-actions">
                         <div class="search-box">
                             <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -64,46 +100,15 @@
                             <input type="text" class="search-input" placeholder="Cari data..." id="searchInput"
                                 autocomplete="off">
                         </div>
+                        <button class="btn-add" onclick="openModal('tambahDriverModal')">+ Tambah Driver</button>
                     </div>
                 </div>
-                {{-- <div class="filters-row">
-                    <div class="filter-group">
-                        <label class="filter-label">Status</label>
-                        <select class="filter-select" id="statusFilter">
-                            <option value="">Semua Status</option>
-                            <option value="pending">Pending</option>
-                            <option value="approved">Disetujui</option>
-                            <option value="rejected">Ditolak</option>
-                            <option value="completed">Selesai</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">Sub Bidang</label>
-                        <select class="filter-select" id="typeFilter">
-                            <option value="">Semua Sub Bidang</option>
-                            @foreach ($subBidang as $item)
-                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label class="filter-label">Periode</label>
-                        <select class="filter-select" id="periodFilter">
-                            <option value="">Semua Periode</option>
-                            <option value="today">Hari Ini</option>
-                            <option value="week">Minggu Ini</option>
-                            <option value="month">Bulan Ini</option>
-                            <option value="year">Tahun Ini</option>
-                        </select>
-                    </div>
-                </div> --}}
 
-                {{-- TABEL --}}
                 <div class="datatable-wrapper">
                     <table id="driverTable" class="datatable">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>No</th>
                                 <th>Nama Driver</th>
                                 <th>Nomor Telepon</th>
                                 <th>Aksi</th>
@@ -117,10 +122,10 @@
                                     <td>{{ $item->nomer_telepon }}</td>
                                     <td>
                                         <div class="action-buttons">
-                                            <button class="btn btn-sm btn-edit"
-                                                onclick="openModal('editDriverModal', {{ $item->id }})">Edit</button>
-                                            <button class="btn btn-sm btn-delete"
-                                                onclick="openModal('hapusDriverModal', {{ $item->id }})">Hapus</button>
+                                            <button class="btn btn-warning btn-sm"
+                                                onclick="openEditModal({{ $item->id }}, '{{ $item->nama_driver }}', '{{ $item->nomer_telepon }}')">Edit</button>
+                                            <button class="btn btn-danger btn-sm"
+                                                onclick="openDeleteModal({{ $item->id }}, '{{ $item->nama_driver }}')">Hapus</button>
                                         </div>
                                     </td>
                                 </tr>
@@ -128,8 +133,6 @@
                         </tbody>
                     </table>
                 </div>
-
-
 
                 <div class="datatable-footer">
                     <div class="pagination-info">
@@ -155,353 +158,189 @@
                         </select>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
-    </div>
 
-    <!-- Modal Hapus Peminjaman -->
-    <div class="modal-overlay" id="peminjamanHapusModal">
+    <!-- Modal Tambah -->
+    <div class="modal-overlay" id="tambahDriverModal">
         <div class="modal">
-            <input type="hidden" id="hapusId">
             <div class="modal-header">
-                <div class="modal-title">Konfirmasi Hapus</div>
-                <button class="modal-close" onclick="closeModal('peminjamanHapusModal')">✕</button>
+                <div class="modal-title">Tambah Driver</div>
+                <button class="modal-close" onclick="closeModal('tambahDriverModal')">✕</button>
             </div>
             <div class="modal-body">
-                <p>Apakah Anda yakin ingin menghapus peminjaman ini?</p>
+                <label class="label">Nama Driver</label>
+                <input type="text" id="namaDriverBaru" class="select" placeholder="Masukkan nama driver">
+                <label class="label">Nomor Telepon</label>
+                <input type="text" id="nomorDriverBaru" class="select" placeholder="Masukkan nomor telepon">
             </div>
             <div class="modal-footer">
-                <button class="btn btn-cancel" onclick="closeModal('peminjamanHapusModal')">Batal</button>
-                <button class="btn btn-danger" onclick="hapusPeminjaman()">Hapus</button>
+                <button class="btn btn-cancel" onclick="closeModal('tambahDriverModal')">Batal</button>
+                <button class="btn btn-success" onclick="tambahDriver()">Simpan</button>
             </div>
         </div>
     </div>
 
-
-    <!-- Modal Acc Peminjaman -->
-    <div class="modal-overlay" id="peminjamanAccModal">
+    <!-- Modal Edit -->
+    <div class="modal-overlay" id="editDriverModal">
         <div class="modal">
-            <input type="hidden" id="accId">
             <div class="modal-header">
-                <div class="modal-title">Konfirmasi Acc</div>
-                <button class="modal-close" onclick="closeModal('peminjamanAccModal')">✕</button>
+                <div class="modal-title">Edit Driver</div>
+                <button class="modal-close" onclick="closeModal('editDriverModal')">✕</button>
             </div>
             <div class="modal-body">
-                <!-- Dropdown Pilih Driver -->
-                <label for="driverSelect" class="label">Pilih Driver:</label>
-                <select id="driverSelect" class="select">
-                    <option value="" disabled selected>-- Pilih Driver --</option>
-                    <option value="1">Budi Santoso</option>
-                    <option value="2">Rina Wijaya</option>
-                    <option value="3">Agus Prasetyo</option>
-                    <option value="4">Dewi Lestari</option>
-                </select>
-                <p>Apakah Anda yakin ingin menyetujui peminjaman ini?</p>
-
-
+                <input type="hidden" id="editDriverId">
+                <label class="label">Nama Driver</label>
+                <input type="text" id="editNamaDriver" class="select">
+                <label class="label">Nomor Telepon</label>
+                <input type="text" id="editNomorDriver" class="select">
             </div>
             <div class="modal-footer">
-                <button class="btn btn-cancel" onclick="closeModal('peminjamanAccModal')">Batal</button>
-                <button class="btn btn-success" onclick="accPeminjaman()">Setujui</button>
+                <button class="btn btn-cancel" onclick="closeModal('editDriverModal')">Batal</button>
+                <button class="btn btn-success" onclick="editDriver()">Simpan Perubahan</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal Tolak Peminjaman -->
-    <div class="modal-overlay" id="peminjamanTolakModal">
+    <!-- Modal Hapus -->
+    <div class="modal-overlay" id="hapusDriverModal">
         <div class="modal">
-            <input type="hidden" id="tolakId">
             <div class="modal-header">
-                <div class="modal-title">Konfirmasi Tolak</div>
-                <button class="modal-close" onclick="closeModal('peminjamanTolakModal')">✕</button>
+                <div class="modal-title">Hapus Driver</div>
+                <button class="modal-close" onclick="closeModal('hapusDriverModal')">✕</button>
             </div>
             <div class="modal-body">
-                <p>Apakah Anda yakin ingin menolak peminjaman ini?</p>
-
-                <!-- Kolom Keterangan Penolakan -->
-                <label for="keteranganTolak" class="label">Keterangan :</label>
-                <textarea id="keteranganTolak" class="textarea" rows="3" placeholder="Tuliskan alasan penolakan..."></textarea>
+                <input type="hidden" id="hapusDriverId">
+                <p>Apakah Anda yakin ingin menghapus <strong id="hapusDriverNama"></strong>?</p>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-cancel" onclick="closeModal('peminjamanTolakModal')">Batal</button>
-                <button class="btn btn-warning" onclick="tolakPeminjaman()">Tolak</button>
+                <button class="btn btn-cancel" onclick="closeModal('hapusDriverModal')">Batal</button>
+                <button class="btn btn-danger" onclick="hapusDriver()">Hapus</button>
             </div>
         </div>
     </div>
-
 
     <div id="toast" class="toast"></div>
 @endsection
 
 @push('scripts')
-    <script>
-        function accPeminjaman() {
-            const id = document.getElementById('accId').value;
-            const driverId = document.getElementById('driverSelect').value;
-
-            if (!driverId) {
-                alert('Silakan pilih driver terlebih dahulu.');
-                return;
-            }
-
-            // Contoh output (sementara hanya log ke console)
-            console.log("Peminjaman ID:", id);
-            console.log("Driver terpilih:", driverId);
-
-            // Di sini nantinya bisa ditambah request ke backend
-            closeModal('peminjamanAccModal');
-            alert('Peminjaman telah disetujui dengan driver ID: ' + driverId);
-        }
-    </script>
-    <script>
-        function tolakPeminjaman() {
-            const id = document.getElementById('tolakId').value;
-            const keterangan = document.getElementById('keteranganTolak').value.trim();
-
-            if (!keterangan) {
-                alert('Silakan isi alasan penolakan terlebih dahulu.');
-                return;
-            }
-
-            // Contoh output sementara
-            console.log("Peminjaman ID:", id);
-            console.log("Alasan penolakan:", keterangan);
-
-            closeModal('peminjamanTolakModal');
-            alert('Peminjaman telah ditolak dengan alasan: ' + keterangan);
-        }
-    </script>
-    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- DataTables -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-
-    <!-- Inisialisasi DataTable -->
     <script>
-        function accPeminjaman() {
-            let id = document.getElementById('accId').value;
-
-            fetch(`/admin/kendaraan/${id}/acc`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Content-Type': 'application/json'
-                    }
-                }).then(res => res.json())
-                .then(data => {
-                    // update tampilan status di row
-                    let row = document.querySelector(`tr[data-id="${id}"] .status-badge`);
-                    if (row) {
-                        row.textContent = "approved";
-                        row.classList.remove("status-rejected");
-                        row.classList.add("status-approved");
-                    }
-
-                    // disable tombol setelah acc
-                    let btnAcc = document.querySelector(`tr[data-id="${id}"] .btn-acc`);
-                    let btnReject = document.querySelector(`tr[data-id="${id}"] .btn-reject`);
-                    if (btnAcc) btnAcc.disabled = true;
-                    if (btnReject) btnReject.disabled = true;
-                    if (btnAcc) btnAcc.style.opacity = 0.5;
-                    if (btnReject) btnReject.style.opacity = 0.5;
-                    if (btnAcc) btnAcc.style.cursor = "not-allowed";
-                    if (btnReject) btnReject.style.cursor = "not-allowed";
-
-                    showToast("Data berhasil di-ACC!", "success");
-                    closeModal('peminjamanAccModal');
-                });
+        function openModal(id) {
+            document.getElementById(id).style.display = 'flex';
         }
 
-        function tolakPeminjaman() {
-            let id = document.getElementById('tolakId').value;
-
-            fetch(`/admin/kendaraan/${id}/tolak`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Content-Type': 'application/json'
-                    }
-                }).then(res => res.json())
-                .then(data => {
-                    // update tampilan status di row
-                    let row = document.querySelector(`tr[data-id="${id}"] .status-badge`);
-                    if (row) {
-                        row.textContent = "rejected";
-                        row.classList.remove("status-approved");
-                        row.classList.add("status-rejected");
-                    }
-
-                    // disable tombol setelah tolak
-                    let btnAcc = document.querySelector(`tr[data-id="${id}"] .btn-acc`);
-                    let btnReject = document.querySelector(`tr[data-id="${id}"] .btn-reject`);
-                    if (btnAcc) btnAcc.disabled = true;
-                    if (btnReject) btnReject.disabled = true;
-                    if (btnAcc) btnAcc.style.opacity = 0.5;
-                    if (btnReject) btnReject.style.opacity = 0.5;
-                    if (btnAcc) btnAcc.style.cursor = "not-allowed";
-                    if (btnReject) btnReject.style.cursor = "not-allowed";
-
-                    showToast("Data berhasil ditolak!", "error");
-                    closeModal('peminjamanTolakModal');
-                });
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
         }
 
-        function hapusPeminjaman() {
-            let id = document.getElementById('hapusId').value;
-
-            fetch(`/admin/kendaraan/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Content-Type': 'application/json'
-                    }
-                }).then(res => res.json())
-                .then(data => {
-                    // hapus row dari tabel
-                    let row = document.querySelector(`tr[data-id="${id}"]`);
-                    if (row) {
-                        row.remove();
-                    }
-
-                    showToast("Data berhasil dihapus!", "info");
-                    closeModal('peminjamanHapusModal');
-                });
+        function openEditModal(id, nama, nomor) {
+            document.getElementById('editDriverId').value = id;
+            document.getElementById('editNamaDriver').value = nama;
+            document.getElementById('editNomorDriver').value = nomor;
+            openModal('editDriverModal');
         }
 
-
-
-
-        function openModal(modalId, id = null) {
-            const modal = document.getElementById(modalId);
-            modal.style.display = 'flex'; // atau 'block', sesuai CSS kamu
-
-            // kalau modal Acc → isi hidden input accId
-            if (modalId === 'peminjamanAccModal' && id !== null) {
-                document.getElementById('accId').value = id;
-            }
-
-            // kalau modal Tolak → isi hidden input tolakId
-            if (modalId === 'peminjamanTolakModal' && id !== null) {
-                document.getElementById('tolakId').value = id;
-            }
-
-            // kalau modal Hapus juga mau simpan id, tambahkan hidden input di modal hapus
-            if (modalId === 'peminjamanHapusModal' && id !== null) {
-                document.getElementById('hapusId').value = id;
-            }
+        function openDeleteModal(id, nama) {
+            document.getElementById('hapusDriverId').value = id;
+            document.getElementById('hapusDriverNama').textContent = nama;
+            openModal('hapusDriverModal');
         }
 
-        function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            modal.style.display = 'none';
-        }
+        function tambahDriver() {
+            const nama = document.getElementById('namaDriverBaru').value.trim();
+            const nomor = document.getElementById('nomorDriverBaru').value.trim();
 
-        // Opsional: menutup modal ketika klik di luar modal
-        window.addEventListener('click', function(event) {
-            const modal = document.getElementById('peminjamanModal');
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-        window.addEventListener('click', function(event) {
-            const modal = document.getElementById('peminjamanHapusModal');
-            if (event.target === modal) {
-                modal.style.display = 'none';
-            }
-        });
-        $(document).ready(function() {
-            $('#peminjamanTable').DataTable({
-                paging: false, // Nonaktifkan pagination
-                info: false, // Nonaktifkan "Showing 1 to 10 of 50 entries"
-                searching: false,
-                pageLength: 10,
-                lengthMenu: [5, 10, 25, 50, 100],
-                language: {
-                    search: "Cari:",
-                    lengthMenu: "Tampilkan _MENU_ data",
-                    zeroRecords: "Data tidak ditemukan",
-                    info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
-                    paginate: {
-                        first: "Awal",
-                        last: "Akhir",
-                        next: "→",
-                        previous: "←"
-                    },
-                    zeroRecords: "Tidak ditemukan data yang cocok",
+            if (!nama || !nomor) return alert('Semua field harus diisi.');
+
+            $.ajax({
+                url: "{{ route('admin.driver.store') }}",
+                type: "POST",
+                data: {
+                    nama_driver: nama,
+                    nomer_telepon: nomor,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(res) {
+                    closeModal('tambahDriverModal');
+                    showToast(res.message, 'success');
+                    setTimeout(() => location.reload(), 1000);
+                },
+                error: function() {
+                    alert('Gagal menambah driver.');
                 }
             });
-        });
-    </script>
-    <script>
+        }
+
+        function editDriver() {
+            const id = $('#editDriverId').val();
+            const nama = $('#editNamaDriver').val().trim();
+            const nomor = $('#editNomorDriver').val().trim();
+
+            if (!nama || !nomor) return alert('Semua field harus diisi.');
+
+            $.ajax({
+                url: `/admin/driver/${id}`,
+                type: "PUT",
+                data: {
+                    nama_driver: nama,
+                    nomer_telepon: nomor,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(res) {
+                    closeModal('editDriverModal');
+                    showToast(res.message, 'success');
+                    setTimeout(() => location.reload(), 1000);
+                },
+                error: function() {
+                    alert('Gagal memperbarui driver.');
+                }
+            });
+        }
+
+        function hapusDriver() {
+            const id = $('#hapusDriverId').val();
+
+            $.ajax({
+                url: `/admin/driver/${id}`,
+                type: "DELETE",
+                data: {
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(res) {
+                    closeModal('hapusDriverModal');
+                    showToast(res.message, 'success');
+                    setTimeout(() => location.reload(), 1000);
+                },
+                error: function() {
+                    alert('Gagal menghapus driver.');
+                }
+            });
+        }
+
+        function showToast(message, type = "success") {
+            const toast = document.getElementById("toast");
+            toast.className = `toast ${type} show`;
+            toast.textContent = message;
+            setTimeout(() => toast.classList.remove("show"), 4000);
+        }
+
         $(document).ready(function() {
-            const table = $('#peminjamanTable');
+            const table = $('#driverTable');
             const allRows = table.find('tbody tr');
             let filteredRows = allRows;
             let currentPage = 1;
             let rowsPerPage = parseInt($('#itemsPerPage').val());
 
-            function applyFilters() {
-                const status = $('#statusFilter').val();
-                const subBidang = $('#typeFilter').val();
-                const period = $('#periodFilter').val();
-
-                filteredRows = allRows.filter(function() {
-                    const row = $(this);
-                    const rowStatus = row.find('td:nth-child(10)').text().trim().toLowerCase();
-                    const rowSubBidang = row.find('td:nth-child(4)').text().trim();
-                    const rowDate = new Date(row.find('td:nth-child(7)').text());
-
-                    let match = true;
-
-                    if (status && rowStatus !== status.toLowerCase()) {
-                        match = false;
-                    }
-
-                    if (subBidang && rowSubBidang !== $('#typeFilter option:selected').text().trim()) {
-                        match = false;
-                    }
-
-                    if (period) {
-                        const now = new Date();
-                        const rowTime = new Date(rowDate.getFullYear(), rowDate.getMonth(), rowDate
-                            .getDate());
-                        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-
-                        if (period === 'today') {
-                            if (rowTime.getTime() !== today.getTime()) match = false;
-                        } else if (period === 'week') {
-                            const startOfWeek = new Date(today);
-                            startOfWeek.setDate(today.getDate() - today.getDay());
-                            const endOfWeek = new Date(startOfWeek);
-                            endOfWeek.setDate(startOfWeek.getDate() + 6);
-                            if (rowTime < startOfWeek || rowTime > endOfWeek) match = false;
-                        } else if (period === 'month') {
-                            if (
-                                rowDate.getMonth() !== now.getMonth() ||
-                                rowDate.getFullYear() !== now.getFullYear()
-                            ) match = false;
-                        } else if (period === 'year') {
-                            if (rowDate.getFullYear() !== now.getFullYear()) match = false;
-                        }
-                    }
-
-                    return match;
-                });
-            }
-
             function renderTablePage() {
                 const totalRows = filteredRows.length;
                 const start = (currentPage - 1) * rowsPerPage;
                 const end = start + rowsPerPage;
-
                 allRows.hide();
                 filteredRows.hide();
                 filteredRows.slice(start, end).show();
-
                 $('#currentRange').text(`${Math.min(start + 1, totalRows)}-${Math.min(end, totalRows)}`);
                 $('#totalCount').text(totalRows);
                 renderPaginationButtons(totalRows);
@@ -511,7 +350,6 @@
                 const totalPages = Math.ceil(totalRows / rowsPerPage);
                 const container = $('#customPaginationButtons');
                 container.empty();
-
                 for (let i = 1; i <= totalPages; i++) {
                     const btn = $(`<button class="pagination-btn">${i}</button>`);
                     if (i === currentPage) btn.addClass('active');
@@ -521,10 +359,8 @@
                     });
                     container.append(btn);
                 }
-
-                $('#prevPage').prop('disabled', currentPage === 1).toggleClass('disabled', currentPage === 1);
-                $('#nextPage').prop('disabled', currentPage === totalPages).toggleClass('disabled', currentPage ===
-                    totalPages);
+                $('#prevPage').prop('disabled', currentPage === 1);
+                $('#nextPage').prop('disabled', currentPage === totalPages);
             }
 
             $('#prevPage').click(() => {
@@ -550,128 +386,14 @@
 
             $('#searchInput').on('keyup', function() {
                 const keyword = $(this).val().toLowerCase();
-                applyFilters();
-                filteredRows = filteredRows.filter(function() {
+                filteredRows = allRows.filter(function() {
                     return $(this).text().toLowerCase().indexOf(keyword) > -1;
                 });
                 currentPage = 1;
                 renderTablePage();
             });
 
-            $('#statusFilter, #typeFilter, #periodFilter').on('change', function() {
-                applyFilters();
-                const keyword = $('#searchInput').val().toLowerCase();
-                if (keyword) {
-                    filteredRows = filteredRows.filter(function() {
-                        return $(this).text().toLowerCase().indexOf(keyword) > -1;
-                    });
-                }
-                currentPage = 1;
-                renderTablePage();
-            });
-
-            // Initial render
-            applyFilters();
             renderTablePage();
         });
-    </script>
-
-
-
-    <script>
-        $(document).ready(function() {
-            const table = $('#peminjamanTable');
-            const allRows = table.find('tbody tr');
-            let filteredRows = allRows; // Untuk menyimpan hasil pencarian
-            let currentPage = 1;
-            let rowsPerPage = parseInt($('#itemsPerPage').val());
-
-            function renderTablePage() {
-                const totalRows = filteredRows.length;
-                const start = (currentPage - 1) * rowsPerPage;
-                const end = start + rowsPerPage;
-
-                allRows.hide();
-                filteredRows.hide();
-                filteredRows.slice(start, end).show();
-
-                $('#currentRange').text(`${Math.min(start + 1, totalRows)}-${Math.min(end, totalRows)}`);
-                $('#totalCount').text(totalRows);
-                renderPaginationButtons(totalRows);
-            }
-
-            function renderPaginationButtons(totalRows) {
-                const totalPages = Math.ceil(totalRows / rowsPerPage);
-                const container = $('#customPaginationButtons');
-                container.empty();
-
-                for (let i = 1; i <= totalPages; i++) {
-                    const btn = $(`<button class="pagination-btn">${i}</button>`);
-                    if (i === currentPage) btn.addClass('active');
-                    btn.click(() => {
-                        currentPage = i;
-                        renderTablePage();
-                    });
-                    container.append(btn);
-                }
-
-                if (currentPage === 1) {
-                    $('#prevPage').attr('disabled', true).addClass('disabled');
-                } else {
-                    $('#prevPage').removeAttr('disabled').removeClass('disabled');
-                }
-
-                if (currentPage === totalPages) {
-                    $('#nextPage').attr('disabled', true).addClass('disabled');
-                } else {
-                    $('#nextPage').removeAttr('disabled').removeClass('disabled');
-                }
-            }
-
-            $('#prevPage').click(() => {
-                if (currentPage > 1) {
-                    currentPage--;
-                    renderTablePage();
-                }
-            });
-
-            $('#nextPage').click(() => {
-                const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
-                if (currentPage < totalPages) {
-                    currentPage++;
-                    renderTablePage();
-                }
-            });
-
-            $('#itemsPerPage').change(function() {
-                rowsPerPage = parseInt($(this).val());
-                currentPage = 1;
-                renderTablePage();
-            });
-
-            $('#searchInput').on('keyup', function() {
-                const keyword = $(this).val().toLowerCase();
-                filteredRows = allRows.filter(function() {
-                    return $(this).text().toLowerCase().indexOf(keyword) > -1;
-                });
-                currentPage = 1;
-                renderTablePage();
-            });
-
-            renderTablePage(); // Initial render
-        });
-    </script>
-
-    {{-- TOAST --}}
-    <script>
-        function showToast(message, type = "success") {
-            const toast = document.getElementById("toast");
-            toast.className = `toast ${type} show`;
-            toast.textContent = message;
-
-            setTimeout(() => {
-                toast.classList.remove("show");
-            }, 6000); // hilang otomatis setelah 3 detik
-        }
     </script>
 @endpush

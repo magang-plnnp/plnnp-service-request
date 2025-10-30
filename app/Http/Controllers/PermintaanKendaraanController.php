@@ -63,7 +63,9 @@ class PermintaanKendaraanController extends Controller
                              "Nama: {$data['nama']}\n" .
                              "Lokasi Penjemputan: {$data['lokasi_penjemputan']}\n" .
                              "Tanggal: {$data['tanggal_waktu']}\n" .
-                             "Lokasi: {$data['lokasi_penjemputan']}\n"
+                             "Tujuan: {$data['tujuan']}\n" .
+                             "Keperluan: {$data['keperluan']}\n"
+                            
             ]);
 
             if ($response->successful()) {
@@ -88,9 +90,15 @@ class PermintaanKendaraanController extends Controller
         $peminjaman->status = 'approved';
         $peminjaman->driver_id = $request->driver_id;
         $peminjaman->save();
-
+        $driver = Driver::find($request->driver_id);
         $nomor = $this->normalizePhone($peminjaman->no_hp);
-        $this->sendWhatsapp($nomor, "Permintaan kendaraan atas nama {$peminjaman->nama} telah *DITERIMA* ✅");
+
+        $this->sendWhatsapp($nomor, 
+            "Permintaan kendaraan atas nama *{$peminjaman->nama}* telah *DITERIMA* ✅\n" .
+            "🚗 Driver yang ditugaskan:\n" .
+            "Nama: {$driver->nama_driver}\n" .
+            "Nomor HP: {$driver->nomer_telepon}"
+        );
 
         return response()->json(['success' => true]);
     }
@@ -98,16 +106,20 @@ class PermintaanKendaraanController extends Controller
     public function tolak(Request $request, $id)
     {
         $request->validate([
-            'keterangan' => 'nullable|string|max:255'
+            'keterangan' => 'required|string|max:255'
         ]);
 
         $peminjaman = PermintaanKendaraan::findOrFail($id);
         $peminjaman->status = 'rejected';
         $peminjaman->keterangan = $request->keterangan;
         $peminjaman->save();
-
         $nomor = $this->normalizePhone($peminjaman->no_hp);
-        $this->sendWhatsapp($nomor, "Permintaan kendaraan atas nama {$peminjaman->nama} *DITOLAK* ❌.\n\nAlasan: {$peminjaman->keterangan}");
+
+        $pesan = "Permintaan kendaraan atas nama *{$peminjaman->nama}* *DITOLAK* ❌\n" .
+                "📋 Alasan Penolakan:\n" .
+                "{$peminjaman->keterangan}";
+
+        $this->sendWhatsapp($nomor, $pesan);
 
         return response()->json(['success' => true]);
     }

@@ -80,7 +80,7 @@
                     <table id="peminjamanTable" class="datatable">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>No</th>
                                 <th>Pemohon</th>
                                 <th>NID</th>
                                 <th>Sub Bidang</th>
