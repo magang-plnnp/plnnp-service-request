@@ -103,7 +103,7 @@
                     <table id="peminjamanTable" class="datatable">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>No</th>
                                 <th>Pemohon</th>
                                 <th>NID</th>
                                 <th>Sub Bidang</th>
@@ -236,7 +236,9 @@
                 <select id="driverSelect" class="select">
                     <option value="" disabled selected>-- Pilih Driver --</option>
                     @foreach ($drivers as $driver)
-                        <option value="{{ $driver->id }}">{{ $driver->nama_driver }}</option>
+                        <option value="{{ $driver->id }}">
+                            {{ $driver->nama_driver }} ({{ $driver->nomer_telepon }})
+                        </option>
                     @endforeach
                 </select>
                 <p class="mt-3">Apakah Anda yakin ingin menyetujui peminjaman ini?</p>
