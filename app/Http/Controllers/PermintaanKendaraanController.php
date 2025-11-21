@@ -9,6 +9,7 @@ use App\Models\Kendaraan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Http;
+use Carbon\Carbon;
 
 class PermintaanKendaraanController extends Controller
 {
@@ -54,18 +55,27 @@ class PermintaanKendaraanController extends Controller
         }
 
         $data['status'] = 'pending';
-        PermintaanKendaraan::create($data);
 
+        // Simpan ke database dan ambil data relasinya
+        $permintaan = PermintaanKendaraan::create($data);
+
+        // Kirim notifikasi WhatsApp ke grup
         try {
-            $response = Http::post('http://localhost:3000/send-group', [
-                'groupId' => '120363421755577468@g.us', // ganti sesuai grup kamu
-                'message' => "📢 Permintaan Kendaraan Baru:\n\n" .
-                             "Nama: {$data['nama']}\n" .
-                             "Lokasi Penjemputan: {$data['lokasi_penjemputan']}\n" .
-                             "Tanggal: {$data['tanggal_waktu']}\n" .
-                             "Tujuan: {$data['tujuan']}\n" .
-                             "Keperluan: {$data['keperluan']}\n"
-                            
+            $subBidangNama = $permintaan->subBidang ? $permintaan->subBidang->nama : '-';
+            $kendaraanNama = $permintaan->kendaraan ? $permintaan->kendaraan->nama_kendaraan : '-';
+            $formattedDateTime = Carbon::parse($permintaan->tanggal_waktu)->format('d-m-Y H:i') . ' WIB';;
+            $response = Http::post('http://lomba.uppaiton.my.id/send.php', [
+                'chatId' => '120363421755577468@g.us', // ID grup WhatsApp
+                'text'   => "📢 Permintaan Kendaraan Baru\n\n" .
+                            "Nama: {$permintaan->nama}\n" .
+                            "NID: {$permintaan->nid}\n" .
+                            "Sub Bidang: {$subBidangNama}\n" .
+                            "No WhatsApp: {$permintaan->no_hp}\n" .
+                            "Tanggal & Waktu: {$formattedDateTime}\n" .
+                            "Lokasi Penjemputan: {$permintaan->lokasi_penjemputan}\n" .
+                            "Tujuan Perjalanan: {$permintaan->tujuan}\n" .
+                            "Keperluan: {$permintaan->keperluan}\n" .
+                            "Jenis Kendaraan: {$kendaraanNama}\n"
             ]);
 
             if ($response->successful()) {
@@ -135,14 +145,17 @@ class PermintaanKendaraanController extends Controller
 
     private function sendWhatsapp($number, $message)
     {
-        $endpoint = "http://localhost:3000/send-private";
+        $endpoint = "http://lomba.uppaiton.my.id/send.php";
         $client = new \GuzzleHttp\Client();
 
         try {
             $client->post($endpoint, [
                 'json' => [
-                    'number' => $number,
-                    'message' => $message,
+                    'chatId' => "{$number}@c.us",
+                    'text'   => $message,
+                ],
+                'headers' => [
+                    'Content-Type' => 'application/json'
                 ]
             ]);
         } catch (\Exception $e) {

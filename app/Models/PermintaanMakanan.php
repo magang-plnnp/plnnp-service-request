@@ -18,7 +18,7 @@ class PermintaanMakanan extends Model
         'no_hp',
         'judul_agenda',
         'tanggal',
-        'durasi',
+        'durasi_id',
         'jumlah',
         'lokasi',
         'file',
@@ -34,10 +34,9 @@ class PermintaanMakanan extends Model
     }
 
     public function durasi()
-{
-    return $this->belongsTo(Durasi::class);
-}
-
+    {
+        return $this->belongsTo(Durasi::class);
+    }
 
     public function approvedBy()
     {
