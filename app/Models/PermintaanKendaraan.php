@@ -31,7 +31,7 @@ class PermintaanKendaraan extends Model
 
     public function subBidang()
     {
-        return $this->belongsTo(SubBidang::class);
+        return $this->belongsTo(SubBidang::class, 'sub_bidang_id');
     }
 
     public function kendaraan()

@@ -111,7 +111,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="no_hp">Nomor Telepon<span class="required">*</span></label>
+                                    <label for="no_hp">Nomor WhatsApp<span class="required">*</span></label>
                                     <input type="number" id="no_hp" name="no_hp" required />
                                     <small class="form-text text-muted">
                                         Format yang diperbolehkan: harus seperti <strong>081287651209</strong> (dimulai
@@ -134,7 +134,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="durasi">Durasi <span class="required">*</span></label>
-                                    <select id="durasi" name="durasi" required>
+                                    <select id="durasi_id" name="durasi_id" required>
                                         <option value="">-- Pilih Durasi --</option>
                                         @foreach ($durasi as $d)
                                             <option value="{{ $d->id }}"
@@ -219,7 +219,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label for="no_hp">Nomor Whatsapp <span class="required">*</span></label>
+                                    <label for="no_hp">Nomor WhatsApp<span class="required">*</span></label>
                                     <input type="number" id="no_hp" name="no_hp" required />
                                     <small class="form-text text-muted">
                                         Format yang diperbolehkan: harus seperti <strong>081287651209</strong> (dimulai
@@ -436,78 +436,6 @@
                         tingkat tinggi.
                     </p>
                 </div>
-
-                {{-- <div class="feature-card">
-            <div class="feature-icon">
-              <svg
-                width="24"
-                height="24"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-            </div>
-            <h3>24/7 Akses</h3>
-            <p>
-              Platform dapat diakses kapan saja dan dimana saja melalui
-              perangkat apapun.
-            </p>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon">
-              <svg
-                width="24"
-                height="24"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                />
-              </svg>
-            </div>
-            <h3>Laporan Digital</h3>
-            <p>
-              Dapatkan laporan dan dokumentasi digital untuk kebutuhan
-              administrasi.
-            </p>
-          </div> --}}
-
-                {{-- <div class="feature-card">
-            <div class="feature-icon">
-              <svg
-                width="24"
-                height="24"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 2.25a9.75 9.75 0 100 19.5 9.75 9.75 0 000-19.5z"
-                />
-              </svg>
-            </div>
-            <h3>Customer Support</h3>
-            <p>
-              Tim support yang responsif siap membantu Anda jika mengalami
-              kendala.
-            </p>
-          </div> --}}
             </div>
         </div>
     </section>
@@ -517,7 +445,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-bottom">
-            <p>&copy; 2025 PLN Nusantara Power. Semua hak cipta dilindungi.</p>
+            <span>&copy; 2025 PLN-NP Service Request App. Developed by Bimantara & Rhanilham.</span>
         </div>
     </footer>
 
