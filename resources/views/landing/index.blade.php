@@ -240,22 +240,23 @@
                                     <input type="datetime-local" id="tanggal_waktu" name="tanggal_waktu" required />
                                 </div>
                                 <div class="form-group">
-                                    <label for="file">Upload (Surat/ams/wo/dll)</label>
+                                    <label for="file">Upload (Surat/AMS/WO/dll)<span
+                                            class="required">*</span></label>
                                     <input type="file" id="file" name="file"
-                                        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
-                                    <small class="form-text">Format yang diperbolehkan: PDF. Maksimal
-                                        5MB.</small>
+                                        accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.xls,.xlsx,.ppt,.pptx" />
+
+                                    <small class="form-text text-muted">Format yang diperbolehkan: PDF, Word, Excel,
+                                        PowerPoint, Gambar.</small>
+                                    <small id="file-error" class="text-danger" style="display:none;"></small>
                                 </div>
-
-
                                 <div class="form-group full-width">
-                                    <label for="lokasi_penjemputan">Lokasi Penjemputan <span
+                                    <label for="lokasi_penjemputan">Alamat Lengkap Penjemputan <span
                                             class="required">*</span></label>
                                     <input type="text" id="lokasi_penjemputan" name="lokasi_penjemputan"
                                         placeholder="Contoh: Kantor Cabang Jakarta, Bandara Soekarno-Hatta" required />
                                 </div>
                                 <div class="form-group full-width">
-                                    <label for="tujuan">Tujuan Perjalanan <span class="required">*</span></label>
+                                    <label for="tujuan">Alamat Lengkap Tujuan<span class="required">*</span></label>
                                     <input type="text" id="tujuan" name="tujuan"
                                         placeholder="Contoh: Kantor Cabang Jakarta, Bandara Soekarno-Hatta" required />
                                 </div>
@@ -456,6 +457,43 @@
         });
     </script>
     <script src="{{ asset('landing/script.js') }}"></script>
+    <script>
+        document.getElementById('file').addEventListener('change', function() {
+            const allowedExtensions = [
+                'pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png',
+                'xls', 'xlsx', 'ppt', 'pptx'
+            ];
+
+            const fileInput = this;
+            const errorText = document.getElementById('file-error');
+
+            // Reset error
+            errorText.style.display = 'none';
+            errorText.textContent = '';
+
+            if (fileInput.files.length === 0) return;
+
+            const file = fileInput.files[0];
+            const extension = file.name.split('.').pop().toLowerCase();
+
+            // Validasi ekstensi
+            if (!allowedExtensions.includes(extension)) {
+                errorText.style.display = 'block';
+                errorText.textContent =
+                    "Format file tidak diperbolehkan. Harap upload file gambar, PDF, Word, Excel, atau PowerPoint.";
+                fileInput.value = ""; // reset input
+                return;
+            }
+
+            // Validasi ukuran (maks 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                errorText.style.display = 'block';
+                errorText.textContent = "❌ Ukuran file maksimal 5MB.";
+                fileInput.value = "";
+                return;
+            }
+        });
+    </script>
     <script>
         function submitFoodForm(event) {
             event.preventDefault();
